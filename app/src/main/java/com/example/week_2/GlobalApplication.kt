@@ -10,6 +10,7 @@ class GlobalApplication : Application() {
         val naive_app_key = "2115599024481932941aa97f0c3ebaf9"
 
         // KaKao SDK  초기화
+        ///
         KakaoSdk.init(this, naive_app_key)
     }
 }
