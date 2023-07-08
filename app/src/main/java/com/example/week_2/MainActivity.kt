@@ -13,7 +13,6 @@ import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
-import gameset
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
@@ -79,5 +78,5 @@ class MainActivity : AppCompatActivity() {
 //        }
 //        return appKeyHash
 //    }
-///d/dddd/d/d
+
 }

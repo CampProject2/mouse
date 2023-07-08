@@ -1,14 +1,17 @@
+package com.example.week_2
+
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 import com.example.week_2.R
 
 class gameset : AppCompatActivity() {
 
-    private lateinit var settingsButton: Button
+    private lateinit var settingsButton: ImageButton
     private lateinit var gamestartButton: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
