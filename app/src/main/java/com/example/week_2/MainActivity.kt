@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
-//        Log.d("해시키 내놔", getAppKeyHash(this).toString())
+        Log.d("해시키 내놔", getAppKeyHash(this).toString())
 
         val btnKLogin = findViewById<Button>(R.id.btn_klogin)
         btnKLogin.setOnClickListener {
@@ -62,21 +62,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-//    private fun getAppKeyHash(context: Context): String? {
-//        var appKeyHash: String? = null
-//        try {
-//            val packageInfo = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES)
-//            for (signature in packageInfo.signatures) {
-//                val md = MessageDigest.getInstance("SHA")
-//                md.update(signature.toByteArray())
-//                appKeyHash = Base64.encodeToString(md.digest(), Base64.NO_WRAP)
-//            }
-//        } catch (e: PackageManager.NameNotFoundException) {
-//            e.printStackTrace()
-//        } catch (e: NoSuchAlgorithmException) {
-//            e.printStackTrace()
-//        }
-//        return appKeyHash
-//    }
+    private fun getAppKeyHash(context: Context): String? {
+        var appKeyHash: String? = null
+        try {
+            val packageInfo = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_SIGNATURES)
+            for (signature in packageInfo.signatures) {
+                val md = MessageDigest.getInstance("SHA")
+                md.update(signature.toByteArray())
+                appKeyHash = Base64.encodeToString(md.digest(), Base64.NO_WRAP)
+            }
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        } catch (e: NoSuchAlgorithmException) {
+            e.printStackTrace()
+        }
+        return appKeyHash
+    }
 
 }

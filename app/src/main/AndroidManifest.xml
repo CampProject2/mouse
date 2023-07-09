@@ -28,7 +28,6 @@
         <activity
             android:name=".gameset"
             android:exported="false" >
-
         </activity>
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"

@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">game</string>
     <string name="settings_button">Settings Button</string>
+    <string name="imageButton1_description">ImageButton 2</string>
+    <string name="imageButton2_description">ImageButton 2</string>
 </resources>
