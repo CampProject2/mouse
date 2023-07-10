@@ -14,6 +14,7 @@ import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.FormBody
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -138,10 +139,9 @@ class gameset : AppCompatActivity() {
     }
     private fun sendRequest(url: String) {
         val client = OkHttpClient()
-
-        val requestBody = FormBody.Builder()
-            .add("player", kid.toString())
-            .build()
+        val json=JSONObject()
+        json.put("player",kid.toString())
+        val requestBody = json.toString().toRequestBody("application/json".toMediaType())
 
         val request = Request.Builder()
             .url(url)
