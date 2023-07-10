@@ -47,7 +47,7 @@ class gameset : AppCompatActivity() {
         }
         gamestartButton = findViewById(R.id.gamestartButton)
         gamestartButton.setOnClickListener {
-            sendRequest("@string/uri"+"/match")
+            sendRequest("https://5805-192-249-19-234.ngrok-free.app/match")
         }
     }
     private fun postKid() {
@@ -61,7 +61,7 @@ class gameset : AppCompatActivity() {
 
         val requestBody = jsonBody.toRequestBody("application/json".toMediaTypeOrNull())
         val request = Request.Builder()
-            .url("@string/uri"+"/kakao-account-info")
+            .url("https://5805-192-249-19-234.ngrok-free.app/kakao-account-info")
             .post(requestBody)
             .build()
         client.newCall(request).enqueue(object : Callback {
@@ -84,7 +84,7 @@ class gameset : AppCompatActivity() {
         val client = OkHttpClient()
 
         val request = Request.Builder()
-            .url("@string/uri"+"/win-loss-count/kakaoId?kakaoId=$kakaoId")
+            .url("https://5805-192-249-19-234.ngrok-free.app/win-loss-count/kakaoId?kakaoId=$kakaoId")
             .get()
             .build()
 
@@ -164,7 +164,7 @@ class gameset : AppCompatActivity() {
                         val num = jsonObject.getInt("num")
                         // 저장된 값 활용
                         // 예: 다음 화면으로 이동, 게임 시작 등
-                        val intent = Intent(this@gameset, GameActivity::class.java)
+                        val intent = Intent(this@gameset, GameActivity2::class.java)
                         intent.putExtra("me", kid.toString())
                         intent.putExtra("opponent", opponent)
                         intent.putExtra("num", num)
