@@ -20,21 +20,21 @@
         tools:layout_editor_absoluteX="20dp">
 
         <Button
-            android:id="@+id/match_button"
+            android:id="@+id/owner_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
             android:backgroundTint="#9AAEBB"
-            android:text="친구 매칭"
-            android:textColor="@color/white"/>
+            android:text="방만들기"
+            android:textColor="@color/white" />
 
         <Button
-            android:id="@+id/random_button"
+            android:id="@+id/ok_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:backgroundTint="#9AAEBB"
-            android:text="랜덤 매칭"
+            android:text="참여하기"
             android:textColor="@color/white" />
 
     </LinearLayout>

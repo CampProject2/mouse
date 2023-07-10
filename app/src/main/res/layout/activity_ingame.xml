@@ -39,7 +39,8 @@
         <ImageButton
             android:id="@+id/imageButton1"
             android:layout_width="176dp"
-            android:layout_height="255dp" android:layout_marginTop=""
+            android:layout_height="255dp"
+            android:layout_marginTop="10dp"
             android:layout_marginRight="30dp"
             android:contentDescription="@string/imageButton1_description"
             android:src="@drawable/firstcard" />

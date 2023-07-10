@@ -6,10 +6,10 @@
 
     <LinearLayout
         android:id="@+id/profile_linear"
-        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="260dp"
         android:layout_margin="40dp"
+        android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,23 +23,6 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/nicknameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="Nickname"
-            android:textSize="25dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/winRateText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="승률"
-            android:textSize="20dp" />
-
-        <TextView
             android:id="@+id/kakaoAccountText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -47,14 +30,13 @@
             android:text="Kakao Account"
             android:textSize="20dp" />
 
-        <Button
-            android:id="@+id/finish_button"
+        <TextView
+            android:id="@+id/winRateText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="#9AAEBB"
-            android:text="확인"
-            android:textColor="@color/white" />
+            android:layout_marginTop="5dp"
+            android:text="승률"
+            android:textSize="18dp" />
 
     </LinearLayout>
 
