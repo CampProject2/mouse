@@ -37,33 +37,33 @@ class GameActivity2 : AppCompatActivity() {
     private var current_val: Int = 0
     var gNum: Int = 0
 
-    val m0 = findViewById<ImageView>(R.id.mc_0)
-    val m1 = findViewById<ImageView>(R.id.mc_1)
-    val m2 = findViewById<ImageView>(R.id.mc_2)
-    val m3 = findViewById<ImageView>(R.id.mc_3)
-    val m4 = findViewById<ImageView>(R.id.mc_4)
-    val m5 = findViewById<ImageView>(R.id.mc_5)
-    val m6 = findViewById<ImageView>(R.id.mc_6)
-    val m7 = findViewById<ImageView>(R.id.mc_7)
-    val m8 = findViewById<ImageView>(R.id.mc_8)
-    val m9 = findViewById<ImageView>(R.id.mc_9)
-    val m10 = findViewById<ImageView>(R.id.mc_10)
-    val m11 = findViewById<ImageView>(R.id.mc_11)
-    val m12 = findViewById<ImageView>(R.id.mc_12)
+    private lateinit var m0: ImageView
+    private lateinit var m1: ImageView
+    private lateinit var m2: ImageView
+    private lateinit var m3: ImageView
+    private lateinit var m4: ImageView
+    private lateinit var m5: ImageView
+    private lateinit var m6: ImageView
+    private lateinit var m7: ImageView
+    private lateinit var m8: ImageView
+    private lateinit var m9: ImageView
+    private lateinit var m10: ImageView
+    private lateinit var m11: ImageView
+    private lateinit var m12: ImageView
 
-    val o0 = findViewById<ImageView>(R.id.oc_0)
-    val o1 = findViewById<ImageView>(R.id.oc_1)
-    val o2 = findViewById<ImageView>(R.id.oc_2)
-    val o3 = findViewById<ImageView>(R.id.oc_3)
-    val o4 = findViewById<ImageView>(R.id.oc_4)
-    val o5 = findViewById<ImageView>(R.id.oc_5)
-    val o6 = findViewById<ImageView>(R.id.oc_6)
-    val o7 = findViewById<ImageView>(R.id.oc_7)
-    val o8 = findViewById<ImageView>(R.id.oc_8)
-    val o9 = findViewById<ImageView>(R.id.oc_9)
-    val o10 = findViewById<ImageView>(R.id.oc_10)
-    val o11 = findViewById<ImageView>(R.id.oc_11)
-    val o12 = findViewById<ImageView>(R.id.oc_12)
+    private lateinit var o0: ImageView
+    private lateinit var o1: ImageView
+    private lateinit var o2: ImageView
+    private lateinit var o3: ImageView
+    private lateinit var o4: ImageView
+    private lateinit var o5: ImageView
+    private lateinit var o6: ImageView
+    private lateinit var o7: ImageView
+    private lateinit var o8: ImageView
+    private lateinit var o9: ImageView
+    private lateinit var o10: ImageView
+    private lateinit var o11: ImageView
+    private lateinit var o12: ImageView
 
     val mhand: MutableList<Int> = mutableListOf() // id(index) - tid 관계
     var ohand: MutableList<Int> = mutableListOf() // id(index) - tid 관계
@@ -72,6 +72,34 @@ class GameActivity2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game2)
+
+        m0 = findViewById<ImageView>(R.id.mc_0)
+        m1 = findViewById<ImageView>(R.id.mc_1)
+        m2 = findViewById<ImageView>(R.id.mc_2)
+        m3 = findViewById<ImageView>(R.id.mc_3)
+        m4 = findViewById<ImageView>(R.id.mc_4)
+        m5 = findViewById<ImageView>(R.id.mc_5)
+        m6 = findViewById<ImageView>(R.id.mc_6)
+        m7 = findViewById<ImageView>(R.id.mc_7)
+        m8 = findViewById<ImageView>(R.id.mc_8)
+        m9 = findViewById<ImageView>(R.id.mc_9)
+        m10 = findViewById<ImageView>(R.id.mc_10)
+        m11 = findViewById<ImageView>(R.id.mc_11)
+        m12 = findViewById<ImageView>(R.id.mc_12)
+
+        o0 = findViewById<ImageView>(R.id.oc_0)
+        o1 = findViewById<ImageView>(R.id.oc_1)
+        o2 = findViewById<ImageView>(R.id.oc_2)
+        o3 = findViewById<ImageView>(R.id.oc_3)
+        o4 = findViewById<ImageView>(R.id.oc_4)
+        o5 = findViewById<ImageView>(R.id.oc_5)
+        o6 = findViewById<ImageView>(R.id.oc_6)
+        o7 = findViewById<ImageView>(R.id.oc_7)
+        o8 = findViewById<ImageView>(R.id.oc_8)
+        o9 = findViewById<ImageView>(R.id.oc_9)
+        o10 = findViewById<ImageView>(R.id.oc_10)
+        o11 = findViewById<ImageView>(R.id.oc_11)
+        o12 = findViewById<ImageView>(R.id.oc_12)
 
         // 인텐트에서 전달받은 값 추출
         kid = intent.getStringExtra("kid")
