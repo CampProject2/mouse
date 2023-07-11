@@ -1469,7 +1469,7 @@ class GameActivity2 : AppCompatActivity() {
             if(tid==23) { m0.setImageResource(R.drawable.w11) }
             if(tid==24) { m0.setImageResource(R.drawable.bj) }
             if(tid==25) { m0.setImageResource(R.drawable.wj) }
-        }
+            if(down[tid]==1) {m0.alpha = 0.5f} }
         if(pos==1) {
             if(tid==0) { m1.setImageResource(R.drawable.b0) }
             if(tid==1) { m1.setImageResource(R.drawable.w0) }
@@ -1497,6 +1497,7 @@ class GameActivity2 : AppCompatActivity() {
             if(tid==23) { m1.setImageResource(R.drawable.w11) }
             if(tid==24) { m1.setImageResource(R.drawable.bj) }
             if(tid==25) { m1.setImageResource(R.drawable.wj) }
+            if(down[tid]==1) {m1.alpha = 0.5f}
         }
         if(pos==2) {
             if(tid==0) { m2.setImageResource(R.drawable.b0) }
@@ -1525,6 +1526,7 @@ class GameActivity2 : AppCompatActivity() {
             if(tid==23) { m2.setImageResource(R.drawable.w11) }
             if(tid==24) { m2.setImageResource(R.drawable.bj) }
             if(tid==25) { m2.setImageResource(R.drawable.wj) }
+            if(down[tid]==1) {m2.alpha = 0.5f}
         }
         if(pos==3) {
             if(tid==0) { m3.setImageResource(R.drawable.b0) }
@@ -1553,6 +1555,7 @@ class GameActivity2 : AppCompatActivity() {
             if(tid==23) { m3.setImageResource(R.drawable.w11) }
             if(tid==24) { m3.setImageResource(R.drawable.bj) }
             if(tid==25) { m3.setImageResource(R.drawable.wj) }
+            if(down[tid]==1) {m3.alpha = 0.5f}
         }
         if(pos==4) {
             if(tid==0) { m4.setImageResource(R.drawable.b0) }
@@ -1581,6 +1584,7 @@ class GameActivity2 : AppCompatActivity() {
             if(tid==23) { m4.setImageResource(R.drawable.w11) }
             if(tid==24) { m4.setImageResource(R.drawable.bj) }
             if(tid==25) { m4.setImageResource(R.drawable.wj) }
+            if(down[tid]==1) {m4.alpha = 0.5f}
         }
         if(pos==5) {
             if(tid==0) { m5.setImageResource(R.drawable.b0) }
@@ -1609,6 +1613,7 @@ class GameActivity2 : AppCompatActivity() {
             if(tid==23) { m5.setImageResource(R.drawable.w11) }
             if(tid==24) { m5.setImageResource(R.drawable.bj) }
             if(tid==25) { m5.setImageResource(R.drawable.wj) }
+            if(down[tid]==1) {m5.alpha = 0.5f}
         }
         if(pos==6) {
             if(tid==0) { m6.setImageResource(R.drawable.b0) }
@@ -1637,6 +1642,7 @@ class GameActivity2 : AppCompatActivity() {
             if(tid==23) { m6.setImageResource(R.drawable.w11) }
             if(tid==24) { m6.setImageResource(R.drawable.bj) }
             if(tid==25) { m6.setImageResource(R.drawable.wj) }
+            if(down[tid]==1) {m6.alpha = 0.5f}
         }
         if(pos==7) {
             if(tid==0) { m7.setImageResource(R.drawable.b0) }
@@ -1665,6 +1671,7 @@ class GameActivity2 : AppCompatActivity() {
             if(tid==23) { m7.setImageResource(R.drawable.w11) }
             if(tid==24) { m7.setImageResource(R.drawable.bj) }
             if(tid==25) { m7.setImageResource(R.drawable.wj) }
+            if(down[tid]==1) {m7.alpha = 0.5f}
         }
         if(pos==8) {
             if(tid==0) { m8.setImageResource(R.drawable.b0) }
@@ -1693,6 +1700,7 @@ class GameActivity2 : AppCompatActivity() {
             if(tid==23) { m8.setImageResource(R.drawable.w11) }
             if(tid==24) { m8.setImageResource(R.drawable.bj) }
             if(tid==25) { m8.setImageResource(R.drawable.wj) }
+            if(down[tid]==1) {m8.alpha = 0.5f}
         }
         if(pos==9) {
             if(tid==0) { m9.setImageResource(R.drawable.b0) }
@@ -1721,6 +1729,7 @@ class GameActivity2 : AppCompatActivity() {
             if(tid==23) { m9.setImageResource(R.drawable.w11) }
             if(tid==24) { m9.setImageResource(R.drawable.bj) }
             if(tid==25) { m9.setImageResource(R.drawable.wj) }
+            if(down[tid]==1) {m9.alpha = 0.5f}
         }
         if(pos==10) {
             if(tid==0) { m10.setImageResource(R.drawable.b0) }
@@ -1749,6 +1758,7 @@ class GameActivity2 : AppCompatActivity() {
             if(tid==23) { m10.setImageResource(R.drawable.w11) }
             if(tid==24) { m10.setImageResource(R.drawable.bj) }
             if(tid==25) { m10.setImageResource(R.drawable.wj) }
+            if(down[tid]==1) {m10.alpha = 0.5f}
         }
         if(pos==11) {
             if(tid==0) { m11.setImageResource(R.drawable.b0) }
@@ -1777,6 +1787,7 @@ class GameActivity2 : AppCompatActivity() {
             if(tid==23) { m11.setImageResource(R.drawable.w11) }
             if(tid==24) { m11.setImageResource(R.drawable.bj) }
             if(tid==25) { m11.setImageResource(R.drawable.wj) }
+            if(down[tid]==1) {m11.alpha = 0.5f}
         }
         if(pos==12) {
             if(tid==0) { m12.setImageResource(R.drawable.b0) }
@@ -1805,6 +1816,7 @@ class GameActivity2 : AppCompatActivity() {
             if(tid==23) { m12.setImageResource(R.drawable.w11) }
             if(tid==24) { m12.setImageResource(R.drawable.bj) }
             if(tid==25) { m12.setImageResource(R.drawable.wj) }
+            if(down[tid]==1) {m12.alpha = 0.5f}
         }
     }
 }
