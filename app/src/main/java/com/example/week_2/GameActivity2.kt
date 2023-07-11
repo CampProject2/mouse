@@ -241,7 +241,7 @@ class GameActivity2 : AppCompatActivity() {
         else { winLoseText.text = "승리했습니다" }
         finishButton.setOnClickListener { finish() }
     }
-    class CustomDialog(context: Context) : Dialog(context) {
+    class CustomDialog(context: Context, private val gameActivity2: GameActivity2) : Dialog(context) {
         override fun onCreate(savedInstanceState: Bundle?) {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.checktile)
@@ -260,12 +260,65 @@ class GameActivity2 : AppCompatActivity() {
             val B11 = findViewById<Button>(R.id.B11)
             val Bj = findViewById<Button>(R.id.Bj)
 
-            B0.setOnClickListener { context.gNum }
+            B0.setOnClickListener {
+                gameActivity2.gNum=0
+                dismiss()
+            }
+            B1.setOnClickListener {
+                gameActivity2.gNum=1
+                dismiss()
+            }
+            B2.setOnClickListener {
+                gameActivity2.gNum=2
+                dismiss()
+            }
+            B3.setOnClickListener {
+                gameActivity2.gNum=3
+                dismiss()
+            }
+            B4.setOnClickListener {
+                gameActivity2.gNum=4
+                dismiss()
+            }
+            B5.setOnClickListener {
+                gameActivity2.gNum=5
+                dismiss()
+            }
+            B6.setOnClickListener {
+                gameActivity2.gNum=6
+                dismiss()
+            }
+            B7.setOnClickListener {
+                gameActivity2.gNum=7
+                dismiss()
+            }
+            B8.setOnClickListener {
+                gameActivity2.gNum=8
+                dismiss()
+            }
+            B9.setOnClickListener {
+                gameActivity2.gNum=9
+                dismiss()
+            }
+            B10.setOnClickListener {
+                gameActivity2.gNum=10
+                dismiss()
+            }
+            B11.setOnClickListener {
+                gameActivity2.gNum=11
+                dismiss()
+            }
+            Bj.setOnClickListener {
+                gameActivity2.gNum=12
+                dismiss()
+            }
+
+
         }
     }
     private fun guess(pos: Int) {
         //다이얼로그 띄우기
-        val customDialog = CustomDialog(this) // this는 액티비티나 프래그먼트의 context입니다.
+        val customDialog = CustomDialog(this, this@GameActivity2) // this는 액티비티나 프래그먼트의 context입니다.
         customDialog.show()
 
         if((ohand[pos] / 2) == gNum) {
