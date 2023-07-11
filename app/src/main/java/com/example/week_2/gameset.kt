@@ -171,8 +171,6 @@ class gameset : AppCompatActivity() {
                         intent.putExtra("num", num)
                         startActivity(intent)
                     }
-                } else {
-                    // 응답이 실패한 경우 처리할 작업
                 }
             }
         })

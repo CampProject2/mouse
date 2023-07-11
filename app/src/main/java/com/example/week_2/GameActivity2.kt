@@ -2,17 +2,23 @@ package com.example.week_2
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import android.os.HandlerThread
+import android.os.Looper
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import okhttp3.Call
 import okhttp3.Callback
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
+import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
@@ -20,13 +26,10 @@ class GameActivity2 : AppCompatActivity() {
 
     private var kid: String? = null
     private var opponent: String? = null
-    private var turn: Int? = null
+    var turn: Int? = null
     private var choosed_card: Int? = 8
-//    private var bJoker: Int = 0
-//    private var wJoker: Int = 0
     private var m_remain: Int = 4
     private var o_remain: Int = 4
-
 
     val b0 = findViewById<ImageView>(R.id.b_0)
     val b1 = findViewById<ImageView>(R.id.b_1)
@@ -55,12 +58,41 @@ class GameActivity2 : AppCompatActivity() {
     val b24 = findViewById<ImageView>(R.id.b_24)
     val b25 = findViewById<ImageView>(R.id.b_25)
 
-    val hand: MutableList<Int> = mutableListOf() // id(index) - tid 관계
-    val open: List<Int> = List(26) { 0 } // tid - open 관계
+    val mhand: MutableList<Int> = mutableListOf() // id(index) - tid 관계
+    var ohand: MutableList<Int> = mutableListOf() // id(index) - tid 관계
+    val down: List<Int> = List(26) { 0 } // tid - open 관계
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game2)
+
+        val m0 = findViewById<ImageView>(R.id.mc_0)
+        val m1 = findViewById<ImageView>(R.id.mc_1)
+        val m2 = findViewById<ImageView>(R.id.mc_2)
+        val m3 = findViewById<ImageView>(R.id.mc_3)
+        val m4 = findViewById<ImageView>(R.id.mc_4)
+        val m5 = findViewById<ImageView>(R.id.mc_5)
+        val m6 = findViewById<ImageView>(R.id.mc_6)
+        val m7 = findViewById<ImageView>(R.id.mc_7)
+        val m8 = findViewById<ImageView>(R.id.mc_8)
+        val m9 = findViewById<ImageView>(R.id.mc_9)
+        val m10 = findViewById<ImageView>(R.id.mc_10)
+        val m11 = findViewById<ImageView>(R.id.mc_11)
+        val m12 = findViewById<ImageView>(R.id.mc_12)
+
+        val b0 = findViewById<ImageView>(R.id.oc_0)
+        val b1 = findViewById<ImageView>(R.id.oc_1)
+        val b2 = findViewById<ImageView>(R.id.oc_2)
+        val b3 = findViewById<ImageView>(R.id.oc_3)
+        val b4 = findViewById<ImageView>(R.id.oc_4)
+        val b5 = findViewById<ImageView>(R.id.oc_5)
+        val b6 = findViewById<ImageView>(R.id.oc_6)
+        val b7 = findViewById<ImageView>(R.id.oc_7)
+        val b8 = findViewById<ImageView>(R.id.oc_8)
+        val b9 = findViewById<ImageView>(R.id.oc_9)
+        val b10 = findViewById<ImageView>(R.id.oc_10)
+        val b11 = findViewById<ImageView>(R.id.oc_11)
+        val b12 = findViewById<ImageView>(R.id.oc_12)
 
         // 인텐트에서 전달받은 값 추출
         kid = intent.getStringExtra("kid")
@@ -76,57 +108,106 @@ class GameActivity2 : AppCompatActivity() {
             }
         }
         else {
-            val client1 = OkHttpClient() // OkHttpClient 인스턴스 생성
-            val handlerThread = HandlerThread("MyHandlerThread") // HandlerThread 생성
-            lateinit var handler: android.os.Handler // Handler 선언
-            val runnable = object : Runnable {
-                override fun run() {
-                    // GET 요청 보내기
-                    val request = Request.Builder()
-                        .url("https://4278-192-249-19-234.ngrok-free.app/myturn")
-                        .build()
+            //상대 턴임을 알려주는 무언가
 
-                    client1.newCall(request).enqueue(object : Callback {
-                        override fun onFailure(call: Call, e: IOException) {}
-                        override fun onResponse(call: Call, response: Response) {
-                            if (response.isSuccessful) {
-                                val responseData = response.body?.string()
-                                // 받은 데이터에서 필요한 값을 추출하여 'turn' 변수에 저장
-                                val jsonObject = JSONObject(responseData)
-                                val receivedTurn = jsonObject.getString("turn")
-                                if(kid == receivedTurn) {
-                                    for(i in 0 until 4) {
-                                        selectCard()
-                                    }
-                                }
-                            }
-                        }
-                    })
-                    // 다음 작업 예약
-                    handler.postDelayed(this, 1000)
+
+
+            val repeatingTask = MyRepeatingTask(this)
+            repeatingTask.remainTime = 30000 // 30초로 설정
+            repeatingTask.startRepeatingTask()
+
+            //yourhand update
+            val Client2 = OkHttpClient() // OkHttpClient 인스턴스 생성
+            val json=JSONObject()
+            json.put("opponent",opponent)
+            val requestBody = json.toString().toRequestBody("application/json".toMediaType())
+
+            val Request2 = Request.Builder()
+                .url("https://4278-192-249-19-234.ngrok-free.app/yourhand")
+                .post(requestBody)
+                .build()
+            Client2.newCall(Request2).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {}
+                override fun onResponse(call: Call, response: Response) {
+                    val responseData = response.body?.string()
+                    // 응답 데이터 처리
+                    val jsonArray = JSONArray(responseData)
+                    for (i in 0 until jsonArray.length()) {
+                        val jsonObject = jsonArray.getJSONObject(i)
+                        val tileid = jsonObject.getString("tileid")
+                        val down = jsonObject.getInt("down")
+                        updateyourhand(i, tileid, down)
+                    }
+                }
+            })
+            if(turn == 1) {
+                for(i in 0 until 4) {
+                    selectCard()
                 }
             }
         }
-        f_sorting()
+        updatemyhand()
         for(i in 0 until 4) {
-            sendhand(i)
+            sendmhand(i)
         }
         turnchange()
         //게임 시작
-        
+        while(m_remain!=0 && o_remain!=0) {
+            if(turn==1) {
+                if(choosed_card!! >= 26) {
+                    selectCard()
+                }
+                //맞히기 / 정답일 때, 오답일 때 구분
+                guess()
+            }
+            else {
+
+            }
+        }
+        //게임 종료 시 while문 탈출
+        if() {
+            //패배했습니다
+            //확인 누르면 finish() : 액티비티 종료
+        }
+        else {
+            //승리했습니다
+            //확인 누르면 finish() : 액티비티 종료
+        }
+
+    }
+    private fun updatemyhand() {
+        mhand.sort()
+        for(i in 0 until mhand.size) {
+        }
+    }
+    private fun updateyourhand(i: Int, tileid: String, down: Int) {
+        ohand.sort()
+        for(i in 0 until ohand.size) {
+        }
     }
     private fun turnchange() {
-
+        val json = JSONObject()
+        json.put("opponent", opponent)
+        val requestBody = json.toString().toRequestBody("application/json".toMediaType())
+        val request = Request.Builder()
+            .url("https://4278-192-249-19-234.ngrok-free.app/turnend")
+            .post(requestBody)
+            .build()
+        val client = OkHttpClient()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {}
+            override fun onResponse(call: Call, response: Response) {}
+        })
         turn = 0
     }
-    private fun sendhand(i: Int) {
+    private fun sendmhand(i: Int) {
         val mediaType = "application/json".toMediaTypeOrNull()
         val client = OkHttpClient()
         val requestBody = JSONObject().apply {
             put("kid", kid)
             put("id", i)
-            put("tileid", hand[i])
-            put("down", open[hand[i]])
+            put("tileid", mhand[i])
+            put("down", down[mhand[i]])
         }
         val request = Request.Builder()
             .url("https://4278-192-249-19-234.ngrok-free.app/hand")
@@ -134,37 +215,58 @@ class GameActivity2 : AppCompatActivity() {
             .build()
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {}
-            override fun onResponse(call: Call, response: Response) {
-                if (response.isSuccessful) {
-                    val responseData = response.body?.string()
-                    if (!responseData.isNullOrBlank()) {
-                        val jsonObject = JSONObject(responseData)
-                        val tileId = jsonObject.getInt("tileid")
-                        hand.add(tileId)
-                    }
-                }
-            }
+            override fun onResponse(call: Call, response: Response) {}
         })
-
-        for(i in 0 until hand.size) {
-
-        }
-    }
-    private fun f_sorting() {
-        for(i in 0 until 4) {
-
-        }
     }
 
-    private fun sorting() {
+    class MyRepeatingTask(gameActivity2: GameActivity2) {
+        var remainTime: Long =10000
+        private val url = "https://4278-192-249-19-234.ngrok-free.app/myturn" // 요청을 보낼 URL
+        private val client = OkHttpClient() // OkHttpClient 인스턴스 생성
+        private val handlerThread = HandlerThread("MyHandlerThread") // HandlerThread 생성
+        private lateinit var handler: Handler // Handler 선언
 
+        private val runnable = object : Runnable {
+            override fun run() {
+                remainTime -= 1000
+                val request = Request.Builder()
+                    .url(url)
+                    .build()
+                client.newCall(request).enqueue(object : Callback {
+                    override fun onFailure(call: Call, e: IOException) {}
+                    override fun onResponse(call: Call, response: Response) {
+                        if (response.isSuccessful) {
+                            val responseData = response.body?.string()
+                            // 받은 데이터에서 필요한 값을 추출하여 'turn' 변수에 저장
+                            val jsonObject = JSONObject(responseData)
+                            val receivedTurn = jsonObject.getInt("turn")
+                            // 'turn' 변수를 사용하여 원하는 작업 수행
+                            if(receivedTurn == 1) {
+                                gameActivity2.turn = 1
+                                stopRepeatingTask()
+                            }
+                        }
+                    }
+                })
+                // 다음 작업 예약
+                handler.postDelayed(this, 1000)
+            }
+        }
+        fun startRepeatingTask() {
+            handlerThread.start() // HandlerThread 시작
+            handler = Handler(Looper.getMainLooper()) // Main Looper 사용
+            handler.post(runnable)
+        }
+        fun stopRepeatingTask() {
+            handler.removeCallbacks(runnable)
+            handlerThread.quitSafely() // HandlerThread 종료
+        }
     }
     private fun selectCard() {
         val dialogView = layoutInflater.inflate(R.layout.board, null)
         val dialog = AlertDialog.Builder(this)
             .setView(dialogView)
             .create()
-
         val requestBody = JSONObject()
         val mediaType = "application/json".toMediaTypeOrNull()
         val client = OkHttpClient()
@@ -184,7 +286,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -207,7 +309,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -230,7 +332,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -253,7 +355,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -276,7 +378,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -299,7 +401,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -322,7 +424,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -345,7 +447,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -368,7 +470,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -391,7 +493,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -414,7 +516,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -437,7 +539,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -460,7 +562,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -483,7 +585,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -506,7 +608,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -529,7 +631,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -552,7 +654,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -575,7 +677,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -597,7 +699,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -620,7 +722,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -643,7 +745,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -666,7 +768,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -689,7 +791,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -712,7 +814,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -735,7 +837,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
@@ -758,7 +860,7 @@ class GameActivity2 : AppCompatActivity() {
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
                             val tileId = jsonObject.getInt("tileid")
-                            hand.add(tileId)
+                            mhand.add(tileId)
                             dialog.dismiss()
                         }
                     }
