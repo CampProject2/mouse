@@ -1,10 +1,12 @@
 package com.example.week_2
 
+import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -58,6 +60,34 @@ class GameActivity2 : AppCompatActivity() {
     val b24 = findViewById<ImageView>(R.id.b_24)
     val b25 = findViewById<ImageView>(R.id.b_25)
 
+    val m0 = findViewById<ImageView>(R.id.mc_0)
+    val m1 = findViewById<ImageView>(R.id.mc_1)
+    val m2 = findViewById<ImageView>(R.id.mc_2)
+    val m3 = findViewById<ImageView>(R.id.mc_3)
+    val m4 = findViewById<ImageView>(R.id.mc_4)
+    val m5 = findViewById<ImageView>(R.id.mc_5)
+    val m6 = findViewById<ImageView>(R.id.mc_6)
+    val m7 = findViewById<ImageView>(R.id.mc_7)
+    val m8 = findViewById<ImageView>(R.id.mc_8)
+    val m9 = findViewById<ImageView>(R.id.mc_9)
+    val m10 = findViewById<ImageView>(R.id.mc_10)
+    val m11 = findViewById<ImageView>(R.id.mc_11)
+    val m12 = findViewById<ImageView>(R.id.mc_12)
+
+    val o0 = findViewById<ImageView>(R.id.oc_0)
+    val o1 = findViewById<ImageView>(R.id.oc_1)
+    val o2 = findViewById<ImageView>(R.id.oc_2)
+    val o3 = findViewById<ImageView>(R.id.oc_3)
+    val o4 = findViewById<ImageView>(R.id.oc_4)
+    val o5 = findViewById<ImageView>(R.id.oc_5)
+    val o6 = findViewById<ImageView>(R.id.oc_6)
+    val o7 = findViewById<ImageView>(R.id.oc_7)
+    val o8 = findViewById<ImageView>(R.id.oc_8)
+    val o9 = findViewById<ImageView>(R.id.oc_9)
+    val o10 = findViewById<ImageView>(R.id.oc_10)
+    val o11 = findViewById<ImageView>(R.id.oc_11)
+    val o12 = findViewById<ImageView>(R.id.oc_12)
+
     val mhand: MutableList<Int> = mutableListOf() // id(index) - tid 관계
     var ohand: MutableList<Int> = mutableListOf() // id(index) - tid 관계
     val down: List<Int> = List(26) { 0 } // tid - open 관계
@@ -65,34 +95,6 @@ class GameActivity2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game2)
-
-        val m0 = findViewById<ImageView>(R.id.mc_0)
-        val m1 = findViewById<ImageView>(R.id.mc_1)
-        val m2 = findViewById<ImageView>(R.id.mc_2)
-        val m3 = findViewById<ImageView>(R.id.mc_3)
-        val m4 = findViewById<ImageView>(R.id.mc_4)
-        val m5 = findViewById<ImageView>(R.id.mc_5)
-        val m6 = findViewById<ImageView>(R.id.mc_6)
-        val m7 = findViewById<ImageView>(R.id.mc_7)
-        val m8 = findViewById<ImageView>(R.id.mc_8)
-        val m9 = findViewById<ImageView>(R.id.mc_9)
-        val m10 = findViewById<ImageView>(R.id.mc_10)
-        val m11 = findViewById<ImageView>(R.id.mc_11)
-        val m12 = findViewById<ImageView>(R.id.mc_12)
-
-        val b0 = findViewById<ImageView>(R.id.oc_0)
-        val b1 = findViewById<ImageView>(R.id.oc_1)
-        val b2 = findViewById<ImageView>(R.id.oc_2)
-        val b3 = findViewById<ImageView>(R.id.oc_3)
-        val b4 = findViewById<ImageView>(R.id.oc_4)
-        val b5 = findViewById<ImageView>(R.id.oc_5)
-        val b6 = findViewById<ImageView>(R.id.oc_6)
-        val b7 = findViewById<ImageView>(R.id.oc_7)
-        val b8 = findViewById<ImageView>(R.id.oc_8)
-        val b9 = findViewById<ImageView>(R.id.oc_9)
-        val b10 = findViewById<ImageView>(R.id.oc_10)
-        val b11 = findViewById<ImageView>(R.id.oc_11)
-        val b12 = findViewById<ImageView>(R.id.oc_12)
 
         // 인텐트에서 전달받은 값 추출
         kid = intent.getStringExtra("kid")
@@ -108,7 +110,10 @@ class GameActivity2 : AppCompatActivity() {
             }
         }
         else {
-            //상대 턴임을 알려주는 무언가
+                val dialog = Dialog(this)
+                dialog.setContentView(R.layout.yourturn)
+                dialog.show()
+
 
 
 
@@ -161,17 +166,28 @@ class GameActivity2 : AppCompatActivity() {
                 guess()
             }
             else {
-
+                // 상대 턴임을 알려주는
+                    val dialog = Dialog(this)
+                    dialog.setContentView(R.layout.yourturn)
+                    dialog.show()
             }
         }
         //게임 종료 시 while문 탈출
-        if() {
-            //패배했습니다
-            //확인 누르면 finish() : 액티비티 종료
+        setContentView(R.layout.winlose)
+        val winLoseText = findViewById<TextView>(R.id.winlose_text)
+        val finishButton = findViewById<Button>(R.id.finish_button)
+
+        if(m_remain==0) {
+            winLoseText.text = "패배했습니다"
+            finishButton.setOnClickListener {
+                finish()
+            }
         }
         else {
-            //승리했습니다
-            //확인 누르면 finish() : 액티비티 종료
+            winLoseText.text = "승리했습니다"
+            finishButton.setOnClickListener {
+                finish()
+            }
         }
 
     }
@@ -868,5 +884,794 @@ class GameActivity2 : AppCompatActivity() {
             })
         }
         dialog.show()
+    }
+    private fun openopcard(pos: Int, tid: Int) {
+        if(pos==0) {
+            if(tid==0) { o0.setImageResource(R.drawable.b0) }
+            if(tid==1) { o0.setImageResource(R.drawable.w0) }
+            if(tid==2) { o0.setImageResource(R.drawable.b1) }
+            if(tid==3) { o0.setImageResource(R.drawable.w1) }
+            if(tid==4) { o0.setImageResource(R.drawable.b2) }
+            if(tid==5) { o0.setImageResource(R.drawable.w2) }
+            if(tid==6) { o0.setImageResource(R.drawable.b3) }
+            if(tid==7) { o0.setImageResource(R.drawable.w3) }
+            if(tid==8) { o0.setImageResource(R.drawable.b4) }
+            if(tid==9) { o0.setImageResource(R.drawable.w4) }
+            if(tid==10) { o0.setImageResource(R.drawable.b5) }
+            if(tid==11) { o0.setImageResource(R.drawable.w5) }
+            if(tid==12) { o0.setImageResource(R.drawable.b6) }
+            if(tid==13) { o0.setImageResource(R.drawable.w6) }
+            if(tid==14) { o0.setImageResource(R.drawable.b7) }
+            if(tid==15) { o0.setImageResource(R.drawable.w7) }
+            if(tid==16) { o0.setImageResource(R.drawable.b8) }
+            if(tid==17) { o0.setImageResource(R.drawable.w8) }
+            if(tid==18) { o0.setImageResource(R.drawable.b9) }
+            if(tid==19) { o0.setImageResource(R.drawable.w9) }
+            if(tid==20) { o0.setImageResource(R.drawable.b10) }
+            if(tid==21) { o0.setImageResource(R.drawable.w10) }
+            if(tid==22) { o0.setImageResource(R.drawable.b11) }
+            if(tid==23) { o0.setImageResource(R.drawable.w11) }
+            if(tid==24) { o0.setImageResource(R.drawable.bj) }
+            if(tid==25) { o0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==1) {
+            if(tid==0) { o0.setImageResource(R.drawable.b0) }
+            if(tid==1) { o0.setImageResource(R.drawable.w0) }
+            if(tid==2) { o0.setImageResource(R.drawable.b1) }
+            if(tid==3) { o0.setImageResource(R.drawable.w1) }
+            if(tid==4) { o0.setImageResource(R.drawable.b2) }
+            if(tid==5) { o0.setImageResource(R.drawable.w2) }
+            if(tid==6) { o0.setImageResource(R.drawable.b3) }
+            if(tid==7) { o0.setImageResource(R.drawable.w3) }
+            if(tid==8) { o0.setImageResource(R.drawable.b4) }
+            if(tid==9) { o0.setImageResource(R.drawable.w4) }
+            if(tid==10) { o0.setImageResource(R.drawable.b5) }
+            if(tid==11) { o0.setImageResource(R.drawable.w5) }
+            if(tid==12) { o0.setImageResource(R.drawable.b6) }
+            if(tid==13) { o0.setImageResource(R.drawable.w6) }
+            if(tid==14) { o0.setImageResource(R.drawable.b7) }
+            if(tid==15) { o0.setImageResource(R.drawable.w7) }
+            if(tid==16) { o0.setImageResource(R.drawable.b8) }
+            if(tid==17) { o0.setImageResource(R.drawable.w8) }
+            if(tid==18) { o0.setImageResource(R.drawable.b9) }
+            if(tid==19) { o0.setImageResource(R.drawable.w9) }
+            if(tid==20) { o0.setImageResource(R.drawable.b10) }
+            if(tid==21) { o0.setImageResource(R.drawable.w10) }
+            if(tid==22) { o0.setImageResource(R.drawable.b11) }
+            if(tid==23) { o0.setImageResource(R.drawable.w11) }
+            if(tid==24) { o0.setImageResource(R.drawable.bj) }
+            if(tid==25) { o0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==2) {
+            if(tid==0) { o0.setImageResource(R.drawable.b0) }
+            if(tid==1) { o0.setImageResource(R.drawable.w0) }
+            if(tid==2) { o0.setImageResource(R.drawable.b1) }
+            if(tid==3) { o0.setImageResource(R.drawable.w1) }
+            if(tid==4) { o0.setImageResource(R.drawable.b2) }
+            if(tid==5) { o0.setImageResource(R.drawable.w2) }
+            if(tid==6) { o0.setImageResource(R.drawable.b3) }
+            if(tid==7) { o0.setImageResource(R.drawable.w3) }
+            if(tid==8) { o0.setImageResource(R.drawable.b4) }
+            if(tid==9) { o0.setImageResource(R.drawable.w4) }
+            if(tid==10) { o0.setImageResource(R.drawable.b5) }
+            if(tid==11) { o0.setImageResource(R.drawable.w5) }
+            if(tid==12) { o0.setImageResource(R.drawable.b6) }
+            if(tid==13) { o0.setImageResource(R.drawable.w6) }
+            if(tid==14) { o0.setImageResource(R.drawable.b7) }
+            if(tid==15) { o0.setImageResource(R.drawable.w7) }
+            if(tid==16) { o0.setImageResource(R.drawable.b8) }
+            if(tid==17) { o0.setImageResource(R.drawable.w8) }
+            if(tid==18) { o0.setImageResource(R.drawable.b9) }
+            if(tid==19) { o0.setImageResource(R.drawable.w9) }
+            if(tid==20) { o0.setImageResource(R.drawable.b10) }
+            if(tid==21) { o0.setImageResource(R.drawable.w10) }
+            if(tid==22) { o0.setImageResource(R.drawable.b11) }
+            if(tid==23) { o0.setImageResource(R.drawable.w11) }
+            if(tid==24) { o0.setImageResource(R.drawable.bj) }
+            if(tid==25) { o0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==3) {
+            if(tid==0) { o0.setImageResource(R.drawable.b0) }
+            if(tid==1) { o0.setImageResource(R.drawable.w0) }
+            if(tid==2) { o0.setImageResource(R.drawable.b1) }
+            if(tid==3) { o0.setImageResource(R.drawable.w1) }
+            if(tid==4) { o0.setImageResource(R.drawable.b2) }
+            if(tid==5) { o0.setImageResource(R.drawable.w2) }
+            if(tid==6) { o0.setImageResource(R.drawable.b3) }
+            if(tid==7) { o0.setImageResource(R.drawable.w3) }
+            if(tid==8) { o0.setImageResource(R.drawable.b4) }
+            if(tid==9) { o0.setImageResource(R.drawable.w4) }
+            if(tid==10) { o0.setImageResource(R.drawable.b5) }
+            if(tid==11) { o0.setImageResource(R.drawable.w5) }
+            if(tid==12) { o0.setImageResource(R.drawable.b6) }
+            if(tid==13) { o0.setImageResource(R.drawable.w6) }
+            if(tid==14) { o0.setImageResource(R.drawable.b7) }
+            if(tid==15) { o0.setImageResource(R.drawable.w7) }
+            if(tid==16) { o0.setImageResource(R.drawable.b8) }
+            if(tid==17) { o0.setImageResource(R.drawable.w8) }
+            if(tid==18) { o0.setImageResource(R.drawable.b9) }
+            if(tid==19) { o0.setImageResource(R.drawable.w9) }
+            if(tid==20) { o0.setImageResource(R.drawable.b10) }
+            if(tid==21) { o0.setImageResource(R.drawable.w10) }
+            if(tid==22) { o0.setImageResource(R.drawable.b11) }
+            if(tid==23) { o0.setImageResource(R.drawable.w11) }
+            if(tid==24) { o0.setImageResource(R.drawable.bj) }
+            if(tid==25) { o0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==4) {
+            if(tid==0) { o0.setImageResource(R.drawable.b0) }
+            if(tid==1) { o0.setImageResource(R.drawable.w0) }
+            if(tid==2) { o0.setImageResource(R.drawable.b1) }
+            if(tid==3) { o0.setImageResource(R.drawable.w1) }
+            if(tid==4) { o0.setImageResource(R.drawable.b2) }
+            if(tid==5) { o0.setImageResource(R.drawable.w2) }
+            if(tid==6) { o0.setImageResource(R.drawable.b3) }
+            if(tid==7) { o0.setImageResource(R.drawable.w3) }
+            if(tid==8) { o0.setImageResource(R.drawable.b4) }
+            if(tid==9) { o0.setImageResource(R.drawable.w4) }
+            if(tid==10) { o0.setImageResource(R.drawable.b5) }
+            if(tid==11) { o0.setImageResource(R.drawable.w5) }
+            if(tid==12) { o0.setImageResource(R.drawable.b6) }
+            if(tid==13) { o0.setImageResource(R.drawable.w6) }
+            if(tid==14) { o0.setImageResource(R.drawable.b7) }
+            if(tid==15) { o0.setImageResource(R.drawable.w7) }
+            if(tid==16) { o0.setImageResource(R.drawable.b8) }
+            if(tid==17) { o0.setImageResource(R.drawable.w8) }
+            if(tid==18) { o0.setImageResource(R.drawable.b9) }
+            if(tid==19) { o0.setImageResource(R.drawable.w9) }
+            if(tid==20) { o0.setImageResource(R.drawable.b10) }
+            if(tid==21) { o0.setImageResource(R.drawable.w10) }
+            if(tid==22) { o0.setImageResource(R.drawable.b11) }
+            if(tid==23) { o0.setImageResource(R.drawable.w11) }
+            if(tid==24) { o0.setImageResource(R.drawable.bj) }
+            if(tid==25) { o0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==5) {
+            if(tid==0) { o0.setImageResource(R.drawable.b0) }
+            if(tid==1) { o0.setImageResource(R.drawable.w0) }
+            if(tid==2) { o0.setImageResource(R.drawable.b1) }
+            if(tid==3) { o0.setImageResource(R.drawable.w1) }
+            if(tid==4) { o0.setImageResource(R.drawable.b2) }
+            if(tid==5) { o0.setImageResource(R.drawable.w2) }
+            if(tid==6) { o0.setImageResource(R.drawable.b3) }
+            if(tid==7) { o0.setImageResource(R.drawable.w3) }
+            if(tid==8) { o0.setImageResource(R.drawable.b4) }
+            if(tid==9) { o0.setImageResource(R.drawable.w4) }
+            if(tid==10) { o0.setImageResource(R.drawable.b5) }
+            if(tid==11) { o0.setImageResource(R.drawable.w5) }
+            if(tid==12) { o0.setImageResource(R.drawable.b6) }
+            if(tid==13) { o0.setImageResource(R.drawable.w6) }
+            if(tid==14) { o0.setImageResource(R.drawable.b7) }
+            if(tid==15) { o0.setImageResource(R.drawable.w7) }
+            if(tid==16) { o0.setImageResource(R.drawable.b8) }
+            if(tid==17) { o0.setImageResource(R.drawable.w8) }
+            if(tid==18) { o0.setImageResource(R.drawable.b9) }
+            if(tid==19) { o0.setImageResource(R.drawable.w9) }
+            if(tid==20) { o0.setImageResource(R.drawable.b10) }
+            if(tid==21) { o0.setImageResource(R.drawable.w10) }
+            if(tid==22) { o0.setImageResource(R.drawable.b11) }
+            if(tid==23) { o0.setImageResource(R.drawable.w11) }
+            if(tid==24) { o0.setImageResource(R.drawable.bj) }
+            if(tid==25) { o0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==6) {
+            if(tid==0) { o0.setImageResource(R.drawable.b0) }
+            if(tid==1) { o0.setImageResource(R.drawable.w0) }
+            if(tid==2) { o0.setImageResource(R.drawable.b1) }
+            if(tid==3) { o0.setImageResource(R.drawable.w1) }
+            if(tid==4) { o0.setImageResource(R.drawable.b2) }
+            if(tid==5) { o0.setImageResource(R.drawable.w2) }
+            if(tid==6) { o0.setImageResource(R.drawable.b3) }
+            if(tid==7) { o0.setImageResource(R.drawable.w3) }
+            if(tid==8) { o0.setImageResource(R.drawable.b4) }
+            if(tid==9) { o0.setImageResource(R.drawable.w4) }
+            if(tid==10) { o0.setImageResource(R.drawable.b5) }
+            if(tid==11) { o0.setImageResource(R.drawable.w5) }
+            if(tid==12) { o0.setImageResource(R.drawable.b6) }
+            if(tid==13) { o0.setImageResource(R.drawable.w6) }
+            if(tid==14) { o0.setImageResource(R.drawable.b7) }
+            if(tid==15) { o0.setImageResource(R.drawable.w7) }
+            if(tid==16) { o0.setImageResource(R.drawable.b8) }
+            if(tid==17) { o0.setImageResource(R.drawable.w8) }
+            if(tid==18) { o0.setImageResource(R.drawable.b9) }
+            if(tid==19) { o0.setImageResource(R.drawable.w9) }
+            if(tid==20) { o0.setImageResource(R.drawable.b10) }
+            if(tid==21) { o0.setImageResource(R.drawable.w10) }
+            if(tid==22) { o0.setImageResource(R.drawable.b11) }
+            if(tid==23) { o0.setImageResource(R.drawable.w11) }
+            if(tid==24) { o0.setImageResource(R.drawable.bj) }
+            if(tid==25) { o0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==7) {
+            if(tid==0) { o0.setImageResource(R.drawable.b0) }
+            if(tid==1) { o0.setImageResource(R.drawable.w0) }
+            if(tid==2) { o0.setImageResource(R.drawable.b1) }
+            if(tid==3) { o0.setImageResource(R.drawable.w1) }
+            if(tid==4) { o0.setImageResource(R.drawable.b2) }
+            if(tid==5) { o0.setImageResource(R.drawable.w2) }
+            if(tid==6) { o0.setImageResource(R.drawable.b3) }
+            if(tid==7) { o0.setImageResource(R.drawable.w3) }
+            if(tid==8) { o0.setImageResource(R.drawable.b4) }
+            if(tid==9) { o0.setImageResource(R.drawable.w4) }
+            if(tid==10) { o0.setImageResource(R.drawable.b5) }
+            if(tid==11) { o0.setImageResource(R.drawable.w5) }
+            if(tid==12) { o0.setImageResource(R.drawable.b6) }
+            if(tid==13) { o0.setImageResource(R.drawable.w6) }
+            if(tid==14) { o0.setImageResource(R.drawable.b7) }
+            if(tid==15) { o0.setImageResource(R.drawable.w7) }
+            if(tid==16) { o0.setImageResource(R.drawable.b8) }
+            if(tid==17) { o0.setImageResource(R.drawable.w8) }
+            if(tid==18) { o0.setImageResource(R.drawable.b9) }
+            if(tid==19) { o0.setImageResource(R.drawable.w9) }
+            if(tid==20) { o0.setImageResource(R.drawable.b10) }
+            if(tid==21) { o0.setImageResource(R.drawable.w10) }
+            if(tid==22) { o0.setImageResource(R.drawable.b11) }
+            if(tid==23) { o0.setImageResource(R.drawable.w11) }
+            if(tid==24) { o0.setImageResource(R.drawable.bj) }
+            if(tid==25) { o0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==8) {
+            if(tid==0) { o0.setImageResource(R.drawable.b0) }
+            if(tid==1) { o0.setImageResource(R.drawable.w0) }
+            if(tid==2) { o0.setImageResource(R.drawable.b1) }
+            if(tid==3) { o0.setImageResource(R.drawable.w1) }
+            if(tid==4) { o0.setImageResource(R.drawable.b2) }
+            if(tid==5) { o0.setImageResource(R.drawable.w2) }
+            if(tid==6) { o0.setImageResource(R.drawable.b3) }
+            if(tid==7) { o0.setImageResource(R.drawable.w3) }
+            if(tid==8) { o0.setImageResource(R.drawable.b4) }
+            if(tid==9) { o0.setImageResource(R.drawable.w4) }
+            if(tid==10) { o0.setImageResource(R.drawable.b5) }
+            if(tid==11) { o0.setImageResource(R.drawable.w5) }
+            if(tid==12) { o0.setImageResource(R.drawable.b6) }
+            if(tid==13) { o0.setImageResource(R.drawable.w6) }
+            if(tid==14) { o0.setImageResource(R.drawable.b7) }
+            if(tid==15) { o0.setImageResource(R.drawable.w7) }
+            if(tid==16) { o0.setImageResource(R.drawable.b8) }
+            if(tid==17) { o0.setImageResource(R.drawable.w8) }
+            if(tid==18) { o0.setImageResource(R.drawable.b9) }
+            if(tid==19) { o0.setImageResource(R.drawable.w9) }
+            if(tid==20) { o0.setImageResource(R.drawable.b10) }
+            if(tid==21) { o0.setImageResource(R.drawable.w10) }
+            if(tid==22) { o0.setImageResource(R.drawable.b11) }
+            if(tid==23) { o0.setImageResource(R.drawable.w11) }
+            if(tid==24) { o0.setImageResource(R.drawable.bj) }
+            if(tid==25) { o0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==9) {
+            if(tid==0) { o0.setImageResource(R.drawable.b0) }
+            if(tid==1) { o0.setImageResource(R.drawable.w0) }
+            if(tid==2) { o0.setImageResource(R.drawable.b1) }
+            if(tid==3) { o0.setImageResource(R.drawable.w1) }
+            if(tid==4) { o0.setImageResource(R.drawable.b2) }
+            if(tid==5) { o0.setImageResource(R.drawable.w2) }
+            if(tid==6) { o0.setImageResource(R.drawable.b3) }
+            if(tid==7) { o0.setImageResource(R.drawable.w3) }
+            if(tid==8) { o0.setImageResource(R.drawable.b4) }
+            if(tid==9) { o0.setImageResource(R.drawable.w4) }
+            if(tid==10) { o0.setImageResource(R.drawable.b5) }
+            if(tid==11) { o0.setImageResource(R.drawable.w5) }
+            if(tid==12) { o0.setImageResource(R.drawable.b6) }
+            if(tid==13) { o0.setImageResource(R.drawable.w6) }
+            if(tid==14) { o0.setImageResource(R.drawable.b7) }
+            if(tid==15) { o0.setImageResource(R.drawable.w7) }
+            if(tid==16) { o0.setImageResource(R.drawable.b8) }
+            if(tid==17) { o0.setImageResource(R.drawable.w8) }
+            if(tid==18) { o0.setImageResource(R.drawable.b9) }
+            if(tid==19) { o0.setImageResource(R.drawable.w9) }
+            if(tid==20) { o0.setImageResource(R.drawable.b10) }
+            if(tid==21) { o0.setImageResource(R.drawable.w10) }
+            if(tid==22) { o0.setImageResource(R.drawable.b11) }
+            if(tid==23) { o0.setImageResource(R.drawable.w11) }
+            if(tid==24) { o0.setImageResource(R.drawable.bj) }
+            if(tid==25) { o0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==10) {
+            if(tid==0) { o0.setImageResource(R.drawable.b0) }
+            if(tid==1) { o0.setImageResource(R.drawable.w0) }
+            if(tid==2) { o0.setImageResource(R.drawable.b1) }
+            if(tid==3) { o0.setImageResource(R.drawable.w1) }
+            if(tid==4) { o0.setImageResource(R.drawable.b2) }
+            if(tid==5) { o0.setImageResource(R.drawable.w2) }
+            if(tid==6) { o0.setImageResource(R.drawable.b3) }
+            if(tid==7) { o0.setImageResource(R.drawable.w3) }
+            if(tid==8) { o0.setImageResource(R.drawable.b4) }
+            if(tid==9) { o0.setImageResource(R.drawable.w4) }
+            if(tid==10) { o0.setImageResource(R.drawable.b5) }
+            if(tid==11) { o0.setImageResource(R.drawable.w5) }
+            if(tid==12) { o0.setImageResource(R.drawable.b6) }
+            if(tid==13) { o0.setImageResource(R.drawable.w6) }
+            if(tid==14) { o0.setImageResource(R.drawable.b7) }
+            if(tid==15) { o0.setImageResource(R.drawable.w7) }
+            if(tid==16) { o0.setImageResource(R.drawable.b8) }
+            if(tid==17) { o0.setImageResource(R.drawable.w8) }
+            if(tid==18) { o0.setImageResource(R.drawable.b9) }
+            if(tid==19) { o0.setImageResource(R.drawable.w9) }
+            if(tid==20) { o0.setImageResource(R.drawable.b10) }
+            if(tid==21) { o0.setImageResource(R.drawable.w10) }
+            if(tid==22) { o0.setImageResource(R.drawable.b11) }
+            if(tid==23) { o0.setImageResource(R.drawable.w11) }
+            if(tid==24) { o0.setImageResource(R.drawable.bj) }
+            if(tid==25) { o0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==11) {
+            if(tid==0) { o0.setImageResource(R.drawable.b0) }
+            if(tid==1) { o0.setImageResource(R.drawable.w0) }
+            if(tid==2) { o0.setImageResource(R.drawable.b1) }
+            if(tid==3) { o0.setImageResource(R.drawable.w1) }
+            if(tid==4) { o0.setImageResource(R.drawable.b2) }
+            if(tid==5) { o0.setImageResource(R.drawable.w2) }
+            if(tid==6) { o0.setImageResource(R.drawable.b3) }
+            if(tid==7) { o0.setImageResource(R.drawable.w3) }
+            if(tid==8) { o0.setImageResource(R.drawable.b4) }
+            if(tid==9) { o0.setImageResource(R.drawable.w4) }
+            if(tid==10) { o0.setImageResource(R.drawable.b5) }
+            if(tid==11) { o0.setImageResource(R.drawable.w5) }
+            if(tid==12) { o0.setImageResource(R.drawable.b6) }
+            if(tid==13) { o0.setImageResource(R.drawable.w6) }
+            if(tid==14) { o0.setImageResource(R.drawable.b7) }
+            if(tid==15) { o0.setImageResource(R.drawable.w7) }
+            if(tid==16) { o0.setImageResource(R.drawable.b8) }
+            if(tid==17) { o0.setImageResource(R.drawable.w8) }
+            if(tid==18) { o0.setImageResource(R.drawable.b9) }
+            if(tid==19) { o0.setImageResource(R.drawable.w9) }
+            if(tid==20) { o0.setImageResource(R.drawable.b10) }
+            if(tid==21) { o0.setImageResource(R.drawable.w10) }
+            if(tid==22) { o0.setImageResource(R.drawable.b11) }
+            if(tid==23) { o0.setImageResource(R.drawable.w11) }
+            if(tid==24) { o0.setImageResource(R.drawable.bj) }
+            if(tid==25) { o0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==12) {
+            if(tid==0) { o0.setImageResource(R.drawable.b0) }
+            if(tid==1) { o0.setImageResource(R.drawable.w0) }
+            if(tid==2) { o0.setImageResource(R.drawable.b1) }
+            if(tid==3) { o0.setImageResource(R.drawable.w1) }
+            if(tid==4) { o0.setImageResource(R.drawable.b2) }
+            if(tid==5) { o0.setImageResource(R.drawable.w2) }
+            if(tid==6) { o0.setImageResource(R.drawable.b3) }
+            if(tid==7) { o0.setImageResource(R.drawable.w3) }
+            if(tid==8) { o0.setImageResource(R.drawable.b4) }
+            if(tid==9) { o0.setImageResource(R.drawable.w4) }
+            if(tid==10) { o0.setImageResource(R.drawable.b5) }
+            if(tid==11) { o0.setImageResource(R.drawable.w5) }
+            if(tid==12) { o0.setImageResource(R.drawable.b6) }
+            if(tid==13) { o0.setImageResource(R.drawable.w6) }
+            if(tid==14) { o0.setImageResource(R.drawable.b7) }
+            if(tid==15) { o0.setImageResource(R.drawable.w7) }
+            if(tid==16) { o0.setImageResource(R.drawable.b8) }
+            if(tid==17) { o0.setImageResource(R.drawable.w8) }
+            if(tid==18) { o0.setImageResource(R.drawable.b9) }
+            if(tid==19) { o0.setImageResource(R.drawable.w9) }
+            if(tid==20) { o0.setImageResource(R.drawable.b10) }
+            if(tid==21) { o0.setImageResource(R.drawable.w10) }
+            if(tid==22) { o0.setImageResource(R.drawable.b11) }
+            if(tid==23) { o0.setImageResource(R.drawable.w11) }
+            if(tid==24) { o0.setImageResource(R.drawable.bj) }
+            if(tid==25) { o0.setImageResource(R.drawable.wj) }
+        }
+    }
+    private fun setopcard(pos: Int, tid: Int) {
+        if(down[tid]==1) { openopcard(pos, tid) }
+        else {
+            if(pos==0) {
+                if(tid%2==0) { o0.setImageResource(R.drawable.bb) }
+                else { o0.setImageResource(R.drawable.wb) }
+            }
+            if(pos==1) {
+                if (tid % 2 == 0) { o1.setImageResource(R.drawable.bb) }
+                else { o1.setImageResource(R.drawable.wb) }
+            }
+            if(pos==2) {
+                if(tid%2==0) { o1.setImageResource(R.drawable.bb) }
+                else { o1.setImageResource(R.drawable.wb) }
+            }
+            if(pos==3) {
+                if(tid%2==0) { o1.setImageResource(R.drawable.bb) }
+                else { o1.setImageResource(R.drawable.wb) }
+            }
+            if(pos==4) {
+                if(tid%2==0) { o1.setImageResource(R.drawable.bb) }
+                else { o1.setImageResource(R.drawable.wb) }
+            }
+            if(pos==5) {
+                if(tid%2==0) { o1.setImageResource(R.drawable.bb) }
+                else { o1.setImageResource(R.drawable.wb) }
+            }
+            if(pos==6) {
+                if(tid%2==0) { o1.setImageResource(R.drawable.bb) }
+                else { o1.setImageResource(R.drawable.wb) }
+            }
+            if(pos==7) {
+                if (tid % 2 == 0) { o1.setImageResource(R.drawable.bb) }
+                else { o1.setImageResource(R.drawable.wb) }
+            }
+            if(pos==8) {
+                if (tid % 2 == 0) { o1.setImageResource(R.drawable.bb) }
+                else { o1.setImageResource(R.drawable.wb) }
+            }
+            if(pos==9) {
+                if (tid % 2 == 0) { o1.setImageResource(R.drawable.bb) }
+                else { o1.setImageResource(R.drawable.wb) }
+            }
+            if(pos==10) {
+                if (tid % 2 == 0) { o1.setImageResource(R.drawable.bb) }
+                else { o1.setImageResource(R.drawable.wb) }
+            }
+            if(pos==11) {
+                if (tid % 2 == 0) { o1.setImageResource(R.drawable.bb) }
+                else { o1.setImageResource(R.drawable.wb) }
+            }
+            if(pos==12) {
+                if (tid % 2 == 0) { o1.setImageResource(R.drawable.bb) }
+                else { o1.setImageResource(R.drawable.wb) }
+            }
+        }
+    }
+    private fun openmycard(pos: Int, tid: Int) {
+        if(pos==0) {
+            if(tid==0) { m0.setImageResource(R.drawable.b0) }
+            if(tid==1) { m0.setImageResource(R.drawable.w0) }
+            if(tid==2) { m0.setImageResource(R.drawable.b1) }
+            if(tid==3) { m0.setImageResource(R.drawable.w1) }
+            if(tid==4) { m0.setImageResource(R.drawable.b2) }
+            if(tid==5) { m0.setImageResource(R.drawable.w2) }
+            if(tid==6) { m0.setImageResource(R.drawable.b3) }
+            if(tid==7) { m0.setImageResource(R.drawable.w3) }
+            if(tid==8) { m0.setImageResource(R.drawable.b4) }
+            if(tid==9) { m0.setImageResource(R.drawable.w4) }
+            if(tid==10) { m0.setImageResource(R.drawable.b5) }
+            if(tid==11) { m0.setImageResource(R.drawable.w5) }
+            if(tid==12) { m0.setImageResource(R.drawable.b6) }
+            if(tid==13) { m0.setImageResource(R.drawable.w6) }
+            if(tid==14) { m0.setImageResource(R.drawable.b7) }
+            if(tid==15) { m0.setImageResource(R.drawable.w7) }
+            if(tid==16) { m0.setImageResource(R.drawable.b8) }
+            if(tid==17) { m0.setImageResource(R.drawable.w8) }
+            if(tid==18) { m0.setImageResource(R.drawable.b9) }
+            if(tid==19) { m0.setImageResource(R.drawable.w9) }
+            if(tid==20) { m0.setImageResource(R.drawable.b10) }
+            if(tid==21) { m0.setImageResource(R.drawable.w10) }
+            if(tid==22) { m0.setImageResource(R.drawable.b11) }
+            if(tid==23) { m0.setImageResource(R.drawable.w11) }
+            if(tid==24) { m0.setImageResource(R.drawable.bj) }
+            if(tid==25) { m0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==1) {
+            if(tid==0) { m0.setImageResource(R.drawable.b0) }
+            if(tid==1) { m0.setImageResource(R.drawable.w0) }
+            if(tid==2) { m0.setImageResource(R.drawable.b1) }
+            if(tid==3) { m0.setImageResource(R.drawable.w1) }
+            if(tid==4) { m0.setImageResource(R.drawable.b2) }
+            if(tid==5) { m0.setImageResource(R.drawable.w2) }
+            if(tid==6) { m0.setImageResource(R.drawable.b3) }
+            if(tid==7) { m0.setImageResource(R.drawable.w3) }
+            if(tid==8) { m0.setImageResource(R.drawable.b4) }
+            if(tid==9) { m0.setImageResource(R.drawable.w4) }
+            if(tid==10) { m0.setImageResource(R.drawable.b5) }
+            if(tid==11) { m0.setImageResource(R.drawable.w5) }
+            if(tid==12) { m0.setImageResource(R.drawable.b6) }
+            if(tid==13) { m0.setImageResource(R.drawable.w6) }
+            if(tid==14) { m0.setImageResource(R.drawable.b7) }
+            if(tid==15) { m0.setImageResource(R.drawable.w7) }
+            if(tid==16) { m0.setImageResource(R.drawable.b8) }
+            if(tid==17) { m0.setImageResource(R.drawable.w8) }
+            if(tid==18) { m0.setImageResource(R.drawable.b9) }
+            if(tid==19) { m0.setImageResource(R.drawable.w9) }
+            if(tid==20) { m0.setImageResource(R.drawable.b10) }
+            if(tid==21) { m0.setImageResource(R.drawable.w10) }
+            if(tid==22) { m0.setImageResource(R.drawable.b11) }
+            if(tid==23) { m0.setImageResource(R.drawable.w11) }
+            if(tid==24) { m0.setImageResource(R.drawable.bj) }
+            if(tid==25) { m0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==2) {
+            if(tid==0) { m0.setImageResource(R.drawable.b0) }
+            if(tid==1) { m0.setImageResource(R.drawable.w0) }
+            if(tid==2) { m0.setImageResource(R.drawable.b1) }
+            if(tid==3) { m0.setImageResource(R.drawable.w1) }
+            if(tid==4) { m0.setImageResource(R.drawable.b2) }
+            if(tid==5) { m0.setImageResource(R.drawable.w2) }
+            if(tid==6) { m0.setImageResource(R.drawable.b3) }
+            if(tid==7) { m0.setImageResource(R.drawable.w3) }
+            if(tid==8) { m0.setImageResource(R.drawable.b4) }
+            if(tid==9) { m0.setImageResource(R.drawable.w4) }
+            if(tid==10) { m0.setImageResource(R.drawable.b5) }
+            if(tid==11) { m0.setImageResource(R.drawable.w5) }
+            if(tid==12) { m0.setImageResource(R.drawable.b6) }
+            if(tid==13) { m0.setImageResource(R.drawable.w6) }
+            if(tid==14) { m0.setImageResource(R.drawable.b7) }
+            if(tid==15) { m0.setImageResource(R.drawable.w7) }
+            if(tid==16) { m0.setImageResource(R.drawable.b8) }
+            if(tid==17) { m0.setImageResource(R.drawable.w8) }
+            if(tid==18) { m0.setImageResource(R.drawable.b9) }
+            if(tid==19) { m0.setImageResource(R.drawable.w9) }
+            if(tid==20) { m0.setImageResource(R.drawable.b10) }
+            if(tid==21) { m0.setImageResource(R.drawable.w10) }
+            if(tid==22) { m0.setImageResource(R.drawable.b11) }
+            if(tid==23) { m0.setImageResource(R.drawable.w11) }
+            if(tid==24) { m0.setImageResource(R.drawable.bj) }
+            if(tid==25) { m0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==3) {
+            if(tid==0) { m0.setImageResource(R.drawable.b0) }
+            if(tid==1) { m0.setImageResource(R.drawable.w0) }
+            if(tid==2) { m0.setImageResource(R.drawable.b1) }
+            if(tid==3) { m0.setImageResource(R.drawable.w1) }
+            if(tid==4) { m0.setImageResource(R.drawable.b2) }
+            if(tid==5) { m0.setImageResource(R.drawable.w2) }
+            if(tid==6) { m0.setImageResource(R.drawable.b3) }
+            if(tid==7) { m0.setImageResource(R.drawable.w3) }
+            if(tid==8) { m0.setImageResource(R.drawable.b4) }
+            if(tid==9) { m0.setImageResource(R.drawable.w4) }
+            if(tid==10) { m0.setImageResource(R.drawable.b5) }
+            if(tid==11) { m0.setImageResource(R.drawable.w5) }
+            if(tid==12) { m0.setImageResource(R.drawable.b6) }
+            if(tid==13) { m0.setImageResource(R.drawable.w6) }
+            if(tid==14) { m0.setImageResource(R.drawable.b7) }
+            if(tid==15) { m0.setImageResource(R.drawable.w7) }
+            if(tid==16) { m0.setImageResource(R.drawable.b8) }
+            if(tid==17) { m0.setImageResource(R.drawable.w8) }
+            if(tid==18) { m0.setImageResource(R.drawable.b9) }
+            if(tid==19) { m0.setImageResource(R.drawable.w9) }
+            if(tid==20) { m0.setImageResource(R.drawable.b10) }
+            if(tid==21) { m0.setImageResource(R.drawable.w10) }
+            if(tid==22) { m0.setImageResource(R.drawable.b11) }
+            if(tid==23) { m0.setImageResource(R.drawable.w11) }
+            if(tid==24) { m0.setImageResource(R.drawable.bj) }
+            if(tid==25) { m0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==4) {
+            if(tid==0) { m0.setImageResource(R.drawable.b0) }
+            if(tid==1) { m0.setImageResource(R.drawable.w0) }
+            if(tid==2) { m0.setImageResource(R.drawable.b1) }
+            if(tid==3) { m0.setImageResource(R.drawable.w1) }
+            if(tid==4) { m0.setImageResource(R.drawable.b2) }
+            if(tid==5) { m0.setImageResource(R.drawable.w2) }
+            if(tid==6) { m0.setImageResource(R.drawable.b3) }
+            if(tid==7) { m0.setImageResource(R.drawable.w3) }
+            if(tid==8) { m0.setImageResource(R.drawable.b4) }
+            if(tid==9) { m0.setImageResource(R.drawable.w4) }
+            if(tid==10) { m0.setImageResource(R.drawable.b5) }
+            if(tid==11) { m0.setImageResource(R.drawable.w5) }
+            if(tid==12) { m0.setImageResource(R.drawable.b6) }
+            if(tid==13) { m0.setImageResource(R.drawable.w6) }
+            if(tid==14) { m0.setImageResource(R.drawable.b7) }
+            if(tid==15) { m0.setImageResource(R.drawable.w7) }
+            if(tid==16) { m0.setImageResource(R.drawable.b8) }
+            if(tid==17) { m0.setImageResource(R.drawable.w8) }
+            if(tid==18) { m0.setImageResource(R.drawable.b9) }
+            if(tid==19) { m0.setImageResource(R.drawable.w9) }
+            if(tid==20) { m0.setImageResource(R.drawable.b10) }
+            if(tid==21) { m0.setImageResource(R.drawable.w10) }
+            if(tid==22) { m0.setImageResource(R.drawable.b11) }
+            if(tid==23) { m0.setImageResource(R.drawable.w11) }
+            if(tid==24) { m0.setImageResource(R.drawable.bj) }
+            if(tid==25) { m0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==5) {
+            if(tid==0) { m0.setImageResource(R.drawable.b0) }
+            if(tid==1) { m0.setImageResource(R.drawable.w0) }
+            if(tid==2) { m0.setImageResource(R.drawable.b1) }
+            if(tid==3) { m0.setImageResource(R.drawable.w1) }
+            if(tid==4) { m0.setImageResource(R.drawable.b2) }
+            if(tid==5) { m0.setImageResource(R.drawable.w2) }
+            if(tid==6) { m0.setImageResource(R.drawable.b3) }
+            if(tid==7) { m0.setImageResource(R.drawable.w3) }
+            if(tid==8) { m0.setImageResource(R.drawable.b4) }
+            if(tid==9) { m0.setImageResource(R.drawable.w4) }
+            if(tid==10) { m0.setImageResource(R.drawable.b5) }
+            if(tid==11) { m0.setImageResource(R.drawable.w5) }
+            if(tid==12) { m0.setImageResource(R.drawable.b6) }
+            if(tid==13) { m0.setImageResource(R.drawable.w6) }
+            if(tid==14) { m0.setImageResource(R.drawable.b7) }
+            if(tid==15) { m0.setImageResource(R.drawable.w7) }
+            if(tid==16) { m0.setImageResource(R.drawable.b8) }
+            if(tid==17) { m0.setImageResource(R.drawable.w8) }
+            if(tid==18) { m0.setImageResource(R.drawable.b9) }
+            if(tid==19) { m0.setImageResource(R.drawable.w9) }
+            if(tid==20) { m0.setImageResource(R.drawable.b10) }
+            if(tid==21) { m0.setImageResource(R.drawable.w10) }
+            if(tid==22) { m0.setImageResource(R.drawable.b11) }
+            if(tid==23) { m0.setImageResource(R.drawable.w11) }
+            if(tid==24) { m0.setImageResource(R.drawable.bj) }
+            if(tid==25) { m0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==6) {
+            if(tid==0) { m0.setImageResource(R.drawable.b0) }
+            if(tid==1) { m0.setImageResource(R.drawable.w0) }
+            if(tid==2) { m0.setImageResource(R.drawable.b1) }
+            if(tid==3) { m0.setImageResource(R.drawable.w1) }
+            if(tid==4) { m0.setImageResource(R.drawable.b2) }
+            if(tid==5) { m0.setImageResource(R.drawable.w2) }
+            if(tid==6) { m0.setImageResource(R.drawable.b3) }
+            if(tid==7) { m0.setImageResource(R.drawable.w3) }
+            if(tid==8) { m0.setImageResource(R.drawable.b4) }
+            if(tid==9) { m0.setImageResource(R.drawable.w4) }
+            if(tid==10) { m0.setImageResource(R.drawable.b5) }
+            if(tid==11) { m0.setImageResource(R.drawable.w5) }
+            if(tid==12) { m0.setImageResource(R.drawable.b6) }
+            if(tid==13) { m0.setImageResource(R.drawable.w6) }
+            if(tid==14) { m0.setImageResource(R.drawable.b7) }
+            if(tid==15) { m0.setImageResource(R.drawable.w7) }
+            if(tid==16) { m0.setImageResource(R.drawable.b8) }
+            if(tid==17) { m0.setImageResource(R.drawable.w8) }
+            if(tid==18) { m0.setImageResource(R.drawable.b9) }
+            if(tid==19) { m0.setImageResource(R.drawable.w9) }
+            if(tid==20) { m0.setImageResource(R.drawable.b10) }
+            if(tid==21) { m0.setImageResource(R.drawable.w10) }
+            if(tid==22) { m0.setImageResource(R.drawable.b11) }
+            if(tid==23) { m0.setImageResource(R.drawable.w11) }
+            if(tid==24) { m0.setImageResource(R.drawable.bj) }
+            if(tid==25) { m0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==7) {
+            if(tid==0) { m0.setImageResource(R.drawable.b0) }
+            if(tid==1) { m0.setImageResource(R.drawable.w0) }
+            if(tid==2) { m0.setImageResource(R.drawable.b1) }
+            if(tid==3) { m0.setImageResource(R.drawable.w1) }
+            if(tid==4) { m0.setImageResource(R.drawable.b2) }
+            if(tid==5) { m0.setImageResource(R.drawable.w2) }
+            if(tid==6) { m0.setImageResource(R.drawable.b3) }
+            if(tid==7) { m0.setImageResource(R.drawable.w3) }
+            if(tid==8) { m0.setImageResource(R.drawable.b4) }
+            if(tid==9) { m0.setImageResource(R.drawable.w4) }
+            if(tid==10) { m0.setImageResource(R.drawable.b5) }
+            if(tid==11) { m0.setImageResource(R.drawable.w5) }
+            if(tid==12) { m0.setImageResource(R.drawable.b6) }
+            if(tid==13) { m0.setImageResource(R.drawable.w6) }
+            if(tid==14) { m0.setImageResource(R.drawable.b7) }
+            if(tid==15) { m0.setImageResource(R.drawable.w7) }
+            if(tid==16) { m0.setImageResource(R.drawable.b8) }
+            if(tid==17) { m0.setImageResource(R.drawable.w8) }
+            if(tid==18) { m0.setImageResource(R.drawable.b9) }
+            if(tid==19) { m0.setImageResource(R.drawable.w9) }
+            if(tid==20) { m0.setImageResource(R.drawable.b10) }
+            if(tid==21) { m0.setImageResource(R.drawable.w10) }
+            if(tid==22) { m0.setImageResource(R.drawable.b11) }
+            if(tid==23) { m0.setImageResource(R.drawable.w11) }
+            if(tid==24) { m0.setImageResource(R.drawable.bj) }
+            if(tid==25) { m0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==8) {
+            if(tid==0) { m0.setImageResource(R.drawable.b0) }
+            if(tid==1) { m0.setImageResource(R.drawable.w0) }
+            if(tid==2) { m0.setImageResource(R.drawable.b1) }
+            if(tid==3) { m0.setImageResource(R.drawable.w1) }
+            if(tid==4) { m0.setImageResource(R.drawable.b2) }
+            if(tid==5) { m0.setImageResource(R.drawable.w2) }
+            if(tid==6) { m0.setImageResource(R.drawable.b3) }
+            if(tid==7) { m0.setImageResource(R.drawable.w3) }
+            if(tid==8) { m0.setImageResource(R.drawable.b4) }
+            if(tid==9) { m0.setImageResource(R.drawable.w4) }
+            if(tid==10) { m0.setImageResource(R.drawable.b5) }
+            if(tid==11) { m0.setImageResource(R.drawable.w5) }
+            if(tid==12) { m0.setImageResource(R.drawable.b6) }
+            if(tid==13) { m0.setImageResource(R.drawable.w6) }
+            if(tid==14) { m0.setImageResource(R.drawable.b7) }
+            if(tid==15) { m0.setImageResource(R.drawable.w7) }
+            if(tid==16) { m0.setImageResource(R.drawable.b8) }
+            if(tid==17) { m0.setImageResource(R.drawable.w8) }
+            if(tid==18) { m0.setImageResource(R.drawable.b9) }
+            if(tid==19) { m0.setImageResource(R.drawable.w9) }
+            if(tid==20) { m0.setImageResource(R.drawable.b10) }
+            if(tid==21) { m0.setImageResource(R.drawable.w10) }
+            if(tid==22) { m0.setImageResource(R.drawable.b11) }
+            if(tid==23) { m0.setImageResource(R.drawable.w11) }
+            if(tid==24) { m0.setImageResource(R.drawable.bj) }
+            if(tid==25) { m0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==9) {
+            if(tid==0) { m0.setImageResource(R.drawable.b0) }
+            if(tid==1) { m0.setImageResource(R.drawable.w0) }
+            if(tid==2) { m0.setImageResource(R.drawable.b1) }
+            if(tid==3) { m0.setImageResource(R.drawable.w1) }
+            if(tid==4) { m0.setImageResource(R.drawable.b2) }
+            if(tid==5) { m0.setImageResource(R.drawable.w2) }
+            if(tid==6) { m0.setImageResource(R.drawable.b3) }
+            if(tid==7) { m0.setImageResource(R.drawable.w3) }
+            if(tid==8) { m0.setImageResource(R.drawable.b4) }
+            if(tid==9) { m0.setImageResource(R.drawable.w4) }
+            if(tid==10) { m0.setImageResource(R.drawable.b5) }
+            if(tid==11) { m0.setImageResource(R.drawable.w5) }
+            if(tid==12) { m0.setImageResource(R.drawable.b6) }
+            if(tid==13) { m0.setImageResource(R.drawable.w6) }
+            if(tid==14) { m0.setImageResource(R.drawable.b7) }
+            if(tid==15) { m0.setImageResource(R.drawable.w7) }
+            if(tid==16) { m0.setImageResource(R.drawable.b8) }
+            if(tid==17) { m0.setImageResource(R.drawable.w8) }
+            if(tid==18) { m0.setImageResource(R.drawable.b9) }
+            if(tid==19) { m0.setImageResource(R.drawable.w9) }
+            if(tid==20) { m0.setImageResource(R.drawable.b10) }
+            if(tid==21) { m0.setImageResource(R.drawable.w10) }
+            if(tid==22) { m0.setImageResource(R.drawable.b11) }
+            if(tid==23) { m0.setImageResource(R.drawable.w11) }
+            if(tid==24) { m0.setImageResource(R.drawable.bj) }
+            if(tid==25) { m0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==10) {
+            if(tid==0) { m0.setImageResource(R.drawable.b0) }
+            if(tid==1) { m0.setImageResource(R.drawable.w0) }
+            if(tid==2) { m0.setImageResource(R.drawable.b1) }
+            if(tid==3) { m0.setImageResource(R.drawable.w1) }
+            if(tid==4) { m0.setImageResource(R.drawable.b2) }
+            if(tid==5) { m0.setImageResource(R.drawable.w2) }
+            if(tid==6) { m0.setImageResource(R.drawable.b3) }
+            if(tid==7) { m0.setImageResource(R.drawable.w3) }
+            if(tid==8) { m0.setImageResource(R.drawable.b4) }
+            if(tid==9) { m0.setImageResource(R.drawable.w4) }
+            if(tid==10) { m0.setImageResource(R.drawable.b5) }
+            if(tid==11) { m0.setImageResource(R.drawable.w5) }
+            if(tid==12) { m0.setImageResource(R.drawable.b6) }
+            if(tid==13) { m0.setImageResource(R.drawable.w6) }
+            if(tid==14) { m0.setImageResource(R.drawable.b7) }
+            if(tid==15) { m0.setImageResource(R.drawable.w7) }
+            if(tid==16) { m0.setImageResource(R.drawable.b8) }
+            if(tid==17) { m0.setImageResource(R.drawable.w8) }
+            if(tid==18) { m0.setImageResource(R.drawable.b9) }
+            if(tid==19) { m0.setImageResource(R.drawable.w9) }
+            if(tid==20) { m0.setImageResource(R.drawable.b10) }
+            if(tid==21) { m0.setImageResource(R.drawable.w10) }
+            if(tid==22) { m0.setImageResource(R.drawable.b11) }
+            if(tid==23) { m0.setImageResource(R.drawable.w11) }
+            if(tid==24) { m0.setImageResource(R.drawable.bj) }
+            if(tid==25) { m0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==11) {
+            if(tid==0) { m0.setImageResource(R.drawable.b0) }
+            if(tid==1) { m0.setImageResource(R.drawable.w0) }
+            if(tid==2) { m0.setImageResource(R.drawable.b1) }
+            if(tid==3) { m0.setImageResource(R.drawable.w1) }
+            if(tid==4) { m0.setImageResource(R.drawable.b2) }
+            if(tid==5) { m0.setImageResource(R.drawable.w2) }
+            if(tid==6) { m0.setImageResource(R.drawable.b3) }
+            if(tid==7) { m0.setImageResource(R.drawable.w3) }
+            if(tid==8) { m0.setImageResource(R.drawable.b4) }
+            if(tid==9) { m0.setImageResource(R.drawable.w4) }
+            if(tid==10) { m0.setImageResource(R.drawable.b5) }
+            if(tid==11) { m0.setImageResource(R.drawable.w5) }
+            if(tid==12) { m0.setImageResource(R.drawable.b6) }
+            if(tid==13) { m0.setImageResource(R.drawable.w6) }
+            if(tid==14) { m0.setImageResource(R.drawable.b7) }
+            if(tid==15) { m0.setImageResource(R.drawable.w7) }
+            if(tid==16) { m0.setImageResource(R.drawable.b8) }
+            if(tid==17) { m0.setImageResource(R.drawable.w8) }
+            if(tid==18) { m0.setImageResource(R.drawable.b9) }
+            if(tid==19) { m0.setImageResource(R.drawable.w9) }
+            if(tid==20) { m0.setImageResource(R.drawable.b10) }
+            if(tid==21) { m0.setImageResource(R.drawable.w10) }
+            if(tid==22) { m0.setImageResource(R.drawable.b11) }
+            if(tid==23) { m0.setImageResource(R.drawable.w11) }
+            if(tid==24) { m0.setImageResource(R.drawable.bj) }
+            if(tid==25) { m0.setImageResource(R.drawable.wj) }
+        }
+        if(pos==12) {
+            if(tid==0) { m0.setImageResource(R.drawable.b0) }
+            if(tid==1) { m0.setImageResource(R.drawable.w0) }
+            if(tid==2) { m0.setImageResource(R.drawable.b1) }
+            if(tid==3) { m0.setImageResource(R.drawable.w1) }
+            if(tid==4) { m0.setImageResource(R.drawable.b2) }
+            if(tid==5) { m0.setImageResource(R.drawable.w2) }
+            if(tid==6) { m0.setImageResource(R.drawable.b3) }
+            if(tid==7) { m0.setImageResource(R.drawable.w3) }
+            if(tid==8) { m0.setImageResource(R.drawable.b4) }
+            if(tid==9) { m0.setImageResource(R.drawable.w4) }
+            if(tid==10) { m0.setImageResource(R.drawable.b5) }
+            if(tid==11) { m0.setImageResource(R.drawable.w5) }
+            if(tid==12) { m0.setImageResource(R.drawable.b6) }
+            if(tid==13) { m0.setImageResource(R.drawable.w6) }
+            if(tid==14) { m0.setImageResource(R.drawable.b7) }
+            if(tid==15) { m0.setImageResource(R.drawable.w7) }
+            if(tid==16) { m0.setImageResource(R.drawable.b8) }
+            if(tid==17) { m0.setImageResource(R.drawable.w8) }
+            if(tid==18) { m0.setImageResource(R.drawable.b9) }
+            if(tid==19) { m0.setImageResource(R.drawable.w9) }
+            if(tid==20) { m0.setImageResource(R.drawable.b10) }
+            if(tid==21) { m0.setImageResource(R.drawable.w10) }
+            if(tid==22) { m0.setImageResource(R.drawable.b11) }
+            if(tid==23) { m0.setImageResource(R.drawable.w11) }
+            if(tid==24) { m0.setImageResource(R.drawable.bj) }
+            if(tid==25) { m0.setImageResource(R.drawable.wj) }
+        }
     }
 }
