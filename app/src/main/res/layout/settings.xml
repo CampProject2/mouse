@@ -18,9 +18,9 @@
 
         <ImageView
             android:id="@+id/profileimg"
+            android:background="@drawable/profile"
             android:layout_width="132dp"
-            android:layout_height="134dp"
-            tools:srcCompat="@tools:sample/avatars" />
+            android:layout_height="134dp" />
 
         <TextView
             android:id="@+id/kakaoAccountText"

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/boardimg"
     tools:context=".GameActivity">
 
     <LinearLayout
@@ -23,6 +24,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="Opponent"
+            android:textStyle="bold"
+            android:textColor="@color/white"
             android:textSize="18sp" />
 
         <LinearLayout
@@ -143,6 +146,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
             android:text="Me"
             android:textSize="18sp" />
 
