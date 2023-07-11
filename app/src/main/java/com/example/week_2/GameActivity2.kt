@@ -318,7 +318,7 @@ class GameActivity2 : AppCompatActivity() {
     }
     private fun guess(pos: Int) {
         //다이얼로그 띄우기
-        val customDialog = CustomDialog(this, this@GameActivity2) // this는 액티비티나 프래그먼트의 context입니다.
+        val customDialog = CustomDialog(this, this@GameActivity2) // this는 액티비티나 프래그먼트의 context입니다.jj
         customDialog.show()
 
         if((ohand[pos] / 2) == gNum) {
