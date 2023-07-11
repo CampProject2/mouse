@@ -1,6 +1,7 @@
 package com.example.week_2
 
 import android.app.Dialog
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -29,9 +30,12 @@ class GameActivity2 : AppCompatActivity() {
     private var kid: String? = null
     private var opponent: String? = null
     var turn: Int? = null
-    private var choosed_card: Int? = 8
+    private var choosed_card: Int = 8
     private var m_remain: Int = 4
     private var o_remain: Int = 4
+    private var g = 0
+    private var current_val: Int = 0
+    var gNum: Int = 0
 
     val b0 = findViewById<ImageView>(R.id.b_0)
     val b1 = findViewById<ImageView>(R.id.b_1)
@@ -90,11 +94,18 @@ class GameActivity2 : AppCompatActivity() {
 
     val mhand: MutableList<Int> = mutableListOf() // id(index) - tid 관계
     var ohand: MutableList<Int> = mutableListOf() // id(index) - tid 관계
-    val down: List<Int> = List(26) { 0 } // tid - open 관계
+    val down = MutableList<Int>(26) {0} // tid - open 관계
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game2)
+
+        o0.setOnClickListener {
+            if(g==1 && turn==1) {
+                guess(0)
+            }
+
+        }
 
         // 인텐트에서 전달받은 값 추출
         kid = intent.getStringExtra("kid")
@@ -110,13 +121,9 @@ class GameActivity2 : AppCompatActivity() {
             }
         }
         else {
-                val dialog = Dialog(this)
-                dialog.setContentView(R.layout.yourturn)
-                dialog.show()
-
-
-
-
+            val dialog = Dialog(this)
+            dialog.setContentView(R.layout.yourturn)
+            dialog.show()
             val repeatingTask = MyRepeatingTask(this)
             repeatingTask.remainTime = 30000 // 30초로 설정
             repeatingTask.startRepeatingTask()
@@ -126,7 +133,6 @@ class GameActivity2 : AppCompatActivity() {
             val json=JSONObject()
             json.put("opponent",opponent)
             val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-
             val Request2 = Request.Builder()
                 .url("https://4278-192-249-19-234.ngrok-free.app/yourhand")
                 .post(requestBody)
@@ -139,9 +145,11 @@ class GameActivity2 : AppCompatActivity() {
                     val jsonArray = JSONArray(responseData)
                     for (i in 0 until jsonArray.length()) {
                         val jsonObject = jsonArray.getJSONObject(i)
-                        val tileid = jsonObject.getString("tileid")
-                        val down = jsonObject.getInt("down")
-                        updateyourhand(i, tileid, down)
+                        val tileid = jsonObject.getInt("tileid")
+                        val open = jsonObject.getInt("down")
+                        ohand.add(tileid)
+                        down[tileid] = open
+                        setopcard(i, tileid)
                     }
                 }
             })
@@ -151,25 +159,77 @@ class GameActivity2 : AppCompatActivity() {
                 }
             }
         }
-        updatemyhand()
-        for(i in 0 until 4) {
+        //update my hand
+        mhand.sort()
+        for(i in 0 until mhand.size) {
+            openmycard(i, mhand[i])
             sendmhand(i)
         }
         turnchange()
         //게임 시작
         while(m_remain!=0 && o_remain!=0) {
-            if(turn==1) {
-                if(choosed_card!! >= 26) {
-                    selectCard()
+            if(g==0) {
+                if(turn==1) {
+                    if(choosed_card >= 26) {
+                        selectCard()
+                        choosed_card++
+                        mhand.sort()
+                        for(i in 0 until mhand.size) {
+                            openmycard(i, mhand[i])
+                            sendmhand(i)
+                        }
+                    }
+                    g=1
                 }
-                //맞히기 / 정답일 때, 오답일 때 구분
-                guess()
-            }
-            else {
-                // 상대 턴임을 알려주는
+                else {
+                    // 상대 턴임을 알려주는
                     val dialog = Dialog(this)
                     dialog.setContentView(R.layout.yourturn)
                     dialog.show()
+
+                    val repeatingTask = MyRepeatingTask(this)
+                    repeatingTask.remainTime = 30000 // 30초로 설정
+                    repeatingTask.startRepeatingTask()
+
+                    //yourhand update
+                    val Client2 = OkHttpClient() // OkHttpClient 인스턴스 생성
+                    val json=JSONObject()
+                    json.put("opponent",opponent)
+                    val requestBody = json.toString().toRequestBody("application/json".toMediaType())
+                    val Request2 = Request.Builder()
+                        .url("https://4278-192-249-19-234.ngrok-free.app/yourhand")
+                        .post(requestBody)
+                        .build()
+                    Client2.newCall(Request2).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            val responseData = response.body?.string()
+                            // 응답 데이터 처리
+                            val jsonArray = JSONArray(responseData)
+                            for (i in 0 until jsonArray.length()) {
+                                val jsonObject = jsonArray.getJSONObject(i)
+                                val tileid = jsonObject.getInt("tileid")
+                                val open = jsonObject.getInt("down")
+                                ohand.add(tileid)
+                                down[tileid] = open
+                                setopcard(i, tileid)
+                            }
+                        }
+                    })
+                    if(m_remain==0 || o_remain==0) { break }
+                    if(turn==1) {
+                        if(choosed_card >= 26) {
+                            selectCard()
+                            choosed_card++
+                            mhand.sort()
+                            for(i in 0 until mhand.size) {
+                                openmycard(i, mhand[i])
+                                sendmhand(i)
+                            }
+                        }
+                        g=1
+                    }
+                }
             }
         }
         //게임 종료 시 while문 탈출
@@ -177,29 +237,48 @@ class GameActivity2 : AppCompatActivity() {
         val winLoseText = findViewById<TextView>(R.id.winlose_text)
         val finishButton = findViewById<Button>(R.id.finish_button)
 
-        if(m_remain==0) {
-            winLoseText.text = "패배했습니다"
-            finishButton.setOnClickListener {
-                finish()
-            }
+        if(m_remain==0) { winLoseText.text = "패배했습니다" }
+        else { winLoseText.text = "승리했습니다" }
+        finishButton.setOnClickListener { finish() }
+    }
+    class CustomDialog(context: Context) : Dialog(context) {
+        override fun onCreate(savedInstanceState: Bundle?) {
+            super.onCreate(savedInstanceState)
+            setContentView(R.layout.checktile)
+
+            val B0 = findViewById<Button>(R.id.B0)
+            val B1 = findViewById<Button>(R.id.B1)
+            val B2 = findViewById<Button>(R.id.B2)
+            val B3 = findViewById<Button>(R.id.B3)
+            val B4 = findViewById<Button>(R.id.B4)
+            val B5 = findViewById<Button>(R.id.B5)
+            val B6 = findViewById<Button>(R.id.B6)
+            val B7 = findViewById<Button>(R.id.B7)
+            val B8 = findViewById<Button>(R.id.B8)
+            val B9 = findViewById<Button>(R.id.B9)
+            val B10 = findViewById<Button>(R.id.B10)
+            val B11 = findViewById<Button>(R.id.B11)
+            val Bj = findViewById<Button>(R.id.Bj)
+
+            B0.setOnClickListener { context.gNum }
+        }
+    }
+    private fun guess(pos: Int) {
+        //다이얼로그 띄우기
+        val customDialog = CustomDialog(this) // this는 액티비티나 프래그먼트의 context입니다.
+        customDialog.show()
+
+        if((ohand[pos] / 2) == gNum) {
+            down[ohand[pos]] = 1
+            m_remain ++
+            o_remain --
         }
         else {
-            winLoseText.text = "승리했습니다"
-            finishButton.setOnClickListener {
-                finish()
-            }
+            down[current_val] = 1
         }
-
-    }
-    private fun updatemyhand() {
-        mhand.sort()
-        for(i in 0 until mhand.size) {
-        }
-    }
-    private fun updateyourhand(i: Int, tileid: String, down: Int) {
-        ohand.sort()
-        for(i in 0 until ohand.size) {
-        }
+        //
+        turnchange()
+        g=0
     }
     private fun turnchange() {
         val json = JSONObject()
@@ -289,6 +368,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b0.setOnClickListener {
             b0.setImageResource(R.drawable.firstcard)
+            b0.alpha = 0.5f
             requestBody.put("position", 0)
             val request = Request.Builder()
                 .url("https://4278-192-249-19-234.ngrok-free.app/chooseTile")
@@ -883,6 +963,7 @@ class GameActivity2 : AppCompatActivity() {
                 }
             })
         }
+        current_val = mhand[mhand.size-1]
         dialog.show()
     }
     private fun openopcard(pos: Int, tid: Int) {

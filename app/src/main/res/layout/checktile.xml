@@ -12,6 +12,16 @@
         android:orientation="horizontal">
 
         <Button
+            android:id="@+id/B0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:backgroundTint="@color/material_on_surface_stroke"
+            android:text="0"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <Button
             android:id="@+id/B1"
             android:backgroundTint="@color/material_on_surface_stroke"
             android:layout_width="0dp"
@@ -130,16 +140,6 @@
             android:textStyle="bold"
             android:layout_weight="1"
             android:text="11" />
-
-        <Button
-            android:id="@+id/B12"
-            android:layout_width="0dp"
-            android:textSize="20dp"
-            android:backgroundTint="@color/material_on_surface_stroke"
-            android:textStyle="bold"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="12" />
 
         <Button
             android:id="@+id/Bj"
