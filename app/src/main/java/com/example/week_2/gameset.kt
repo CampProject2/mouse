@@ -48,7 +48,7 @@ class gameset : AppCompatActivity() {
         }
         gamestartButton = findViewById(R.id.gamestartButton)
         gamestartButton.setOnClickListener {
-            sendRequest("https://4278-192-249-19-234.ngrok-free.app/match")
+            sendRequest("https://3db2-192-249-19-234.ngrok-free.app/match")
         }
     }
     private fun postKid() {
@@ -62,7 +62,7 @@ class gameset : AppCompatActivity() {
 
         val requestBody = jsonBody.toRequestBody("application/json".toMediaTypeOrNull())
         val request = Request.Builder()
-            .url("https://4278-192-249-19-234.ngrok-free.app/kakao-account-info")
+            .url("https://3db2-192-249-19-234.ngrok-free.app/kakao-account-info")
             .post(requestBody)
             .build()
         client.newCall(request).enqueue(object : Callback {
@@ -85,7 +85,7 @@ class gameset : AppCompatActivity() {
         val client = OkHttpClient()
 
         val request = Request.Builder()
-            .url("https://4278-192-249-19-234.ngrok-free.app/win-loss-count/kakaoId?kakaoId=$kakaoId")
+            .url("https://3db2-192-249-19-234.ngrok-free.app/win-loss-count/kakaoId?kakaoId=$kakaoId")
             .get()
             .build()
 
