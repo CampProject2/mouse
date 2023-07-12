@@ -448,7 +448,7 @@ class GameActivity2 : AppCompatActivity() {
                         }
                     }
                 })
-                // 다음 작업 예약
+                // 다음 작업 예약//
                 handler.postDelayed(this, 1000)
             }
         }
