@@ -156,6 +156,12 @@ class GameActivity2 : AppCompatActivity() {
         // 추출한 값 활용하여 게임 화면 구성 또는 게임 로직 처리
         if(turn==1) {
             for(i in 0 until 4) { selectCard() }
+            mhand.sort()
+            for(i in 0 until mhand.size) {
+                openmycard(i, mhand[i])
+                sendmhand(i)
+            }
+            turnchange()
         }
         else {
             val dialog = Dialog(this)
@@ -192,18 +198,19 @@ class GameActivity2 : AppCompatActivity() {
                         }
                     }
                 })
-                //select card 4
+                //select card 4 & update my hand
                 for(i in 0 until 4) { selectCard() }
+                mhand.sort()
+                for(i in 0 until mhand.size) {
+                    openmycard(i, mhand[i])
+                    sendmhand(i)
+                }
+                turnchange()
             }
         }
 
         //update my hand
-        mhand.sort()
-        for(i in 0 until mhand.size) {
-            openmycard(i, mhand[i])
-            sendmhand(i)
-        }
-        turnchange()
+
         //게임 시작
         Log.d("hshshs", m_remain.toString())
         Log.d("hshshs", o_remain.toString())
