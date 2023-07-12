@@ -45,7 +45,7 @@
 
 # Game Start
 
-https://github.com/CampProject2/mouse/assets/135544903/5bf99e69-7dc5-4263-b61e-16dc2290b7af
+<img src = "https://github.com/CampProject2/mouse/assets/135544903/5bf99e69-7dc5-4263-b61e-16dc2290b7af" height ="400" weight = "800"/>
 
 
 
