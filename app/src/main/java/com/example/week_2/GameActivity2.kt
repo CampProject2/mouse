@@ -210,6 +210,7 @@ class GameActivity2 : AppCompatActivity() {
         val runnable = Runnable {
             if(m_remain!=0 && o_remain!=0) {
                 if(g==0) {
+                    Log.d("nn", "hi")
                     if(turn==1) {
                         if(choosed_card < 26) {
                             selectCard()
@@ -365,13 +366,14 @@ class GameActivity2 : AppCompatActivity() {
                 remainTime -= 1000
                 val request = Request.Builder()
                     .url(url)
+                    .get()
                     .build()
                 client.newCall(request).enqueue(object : Callback {
                     override fun onFailure(call: Call, e: IOException) {}
                     override fun onResponse(call: Call, response: Response) {
-                    if (response.isSuccessful) {
+                        if (response.isSuccessful) {
                             val responseData = response.body?.string()
-                        if (responseData != null) { Log.d("hshs1", responseData) }
+                            if (responseData != null) { Log.d("hshs1", responseData) }
                             // 받은 데이터에서 필요한 값을 추출하여 'turn' 변수에 저장
                             val jsonObject = JSONObject(responseData)
                             val receivedTurn = jsonObject.getInt("turn")
