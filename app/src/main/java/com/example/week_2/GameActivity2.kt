@@ -7,10 +7,13 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
+import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.widget.ConstraintLayout
 import okhttp3.Call
 import okhttp3.Callback
 import okhttp3.MediaType
@@ -203,56 +206,10 @@ class GameActivity2 : AppCompatActivity() {
         }
         turnchange()
         //게임 시작
-        while(m_remain!=0 && o_remain!=0) {
-            if(g==0) {
-                if(turn==1) {
-                    if(choosed_card >= 26) {
-                        selectCard()
-                        choosed_card++
-                        mhand.sort()
-                        for(i in 0 until mhand.size) {
-                            openmycard(i, mhand[i])
-                            sendmhand(i)
-                        }
-                    }
-                    g=1
-                }
-                else {
-                    // 상대 턴임을 알려주는
-                    val dialog = Dialog(this)
-                    dialog.setContentView(R.layout.yourturn)
-                    dialog.show()
-
-                    val repeatingTask = MyRepeatingTask(this)
-                    repeatingTask.remainTime = 30000 // 30초로 설정
-                    repeatingTask.startRepeatingTask()
-
-                    //yourhand update
-                    val Client2 = OkHttpClient() // OkHttpClient 인스턴스 생성
-                    val json=JSONObject()
-                    json.put("opponent",opponent)
-                    val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                    val Request2 = Request.Builder()
-                        .url("https://3db2-192-249-19-234.ngrok-free.app/yourhand")
-                        .post(requestBody)
-                        .build()
-                    Client2.newCall(Request2).enqueue(object : Callback {
-                        override fun onFailure(call: Call, e: IOException) {}
-                        override fun onResponse(call: Call, response: Response) {
-                            val responseData = response.body?.string()
-                            // 응답 데이터 처리
-                            val jsonArray = JSONArray(responseData)
-                            for (i in 0 until jsonArray.length()) {
-                                val jsonObject = jsonArray.getJSONObject(i)
-                                val tileid = jsonObject.getInt("tileid")
-                                val open = jsonObject.getInt("down")
-                                ohand.add(tileid)
-                                down[tileid] = open
-                                setopcard(i, tileid)
-                            }
-                        }
-                    })
-                    if(m_remain==0 || o_remain==0) { break }
+        val handler2 = Handler(Looper.getMainLooper()) // UI 스레드의 Handler 생성
+        val runnable = Runnable {
+            while(m_remain!=0 && o_remain!=0) {
+                if(g==0) {
                     if(turn==1) {
                         if(choosed_card >= 26) {
                             selectCard()
@@ -265,9 +222,60 @@ class GameActivity2 : AppCompatActivity() {
                         }
                         g=1
                     }
+                    else {
+                        // 상대 턴임을 알려주는
+                        val dialog = Dialog(this)
+                        dialog.setContentView(R.layout.yourturn)
+                        dialog.show()
+
+                        val repeatingTask = MyRepeatingTask(this)
+                        repeatingTask.remainTime = 30000 // 30초로 설정
+                        repeatingTask.startRepeatingTask()
+
+                        if(m_remain==0 || o_remain==0) { break }
+                        if(turn==1) {
+                            //yourhand update
+                            val Client2 = OkHttpClient() // OkHttpClient 인스턴스 생성
+                            val json=JSONObject()
+                            json.put("opponent",opponent)
+                            val requestBody = json.toString().toRequestBody("application/json".toMediaType())
+                            val Request2 = Request.Builder()
+                                .url("https://3db2-192-249-19-234.ngrok-free.app/yourhand")
+                                .post(requestBody)
+                                .build()
+                            Client2.newCall(Request2).enqueue(object : Callback {
+                                override fun onFailure(call: Call, e: IOException) {}
+                                override fun onResponse(call: Call, response: Response) {
+                                    val responseData = response.body?.string()
+                                    // 응답 데이터 처리
+                                    val jsonArray = JSONArray(responseData)
+                                    for (i in 0 until jsonArray.length()) {
+                                        val jsonObject = jsonArray.getJSONObject(i)
+                                        val tileid = jsonObject.getInt("tileid")
+                                        val open = jsonObject.getInt("down")
+                                        ohand.add(tileid)
+                                        down[tileid] = open
+                                        setopcard(i, tileid)
+                                    }
+                                }
+                            })
+                            //turn start
+                            if(choosed_card >= 26) {
+                                selectCard()
+                                choosed_card++
+                                mhand.sort()
+                                for(i in 0 until mhand.size) {
+                                    openmycard(i, mhand[i])
+                                    sendmhand(i)
+                                }
+                            }
+                            g=1
+                        }
+                    }
                 }
             }
         }
+        handler2.postDelayed(runnable, 1000) // 1초(1000ms) 딜레이 후에 runnable 실행
         //게임 종료 시 while문 탈출
         setContentView(R.layout.winlose)
         val winLoseText = findViewById<TextView>(R.id.winlose_text)
@@ -359,7 +367,8 @@ class GameActivity2 : AppCompatActivity() {
             m_remain ++
             o_remain --
             //어디론가 맞혔다는 정보 전달
-            
+
+
         }
         else { down[current_val] = 1 }
         for(i in 0 until mhand.size) { sendmhand(i) }
@@ -399,7 +408,6 @@ class GameActivity2 : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {}
         })
     }
-
     class MyRepeatingTask(gameActivity2: GameActivity2) {
         var remainTime: Long =10000
         private val url = "https://3db2-192-249-19-234.ngrok-free.app/myturn" // 요청을 보낼 URL
@@ -444,10 +452,8 @@ class GameActivity2 : AppCompatActivity() {
         }
     }
     private fun selectCard() {
-        val dialogView = layoutInflater.inflate(R.layout.board, null)
-        val dialog = AlertDialog.Builder(this)
-            .setView(dialogView)
-            .create()
+        val dialogView = LayoutInflater.from(this).inflate(R.layout.board, null)
+        val dialog = Dialog(this)
         val requestBody = JSONObject()
         val mediaType = "application/json".toMediaTypeOrNull()
         val client = OkHttpClient()
@@ -480,7 +486,6 @@ class GameActivity2 : AppCompatActivity() {
         b25 = findViewById<ImageView>(R.id.b_25)
 
         b0.setOnClickListener {
-            b0.setImageResource(R.drawable.firstcard)
             b0.alpha = 0.5f
             requestBody.put("position", 0)
             val request = Request.Builder()
@@ -497,6 +502,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -504,7 +510,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b1.setOnClickListener {
-            b1.setImageResource(R.drawable.firstcard)
+            b1.alpha = 0.5f
             requestBody.put("position", 1)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -520,6 +526,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -527,7 +534,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b2.setOnClickListener {
-            b2.setImageResource(R.drawable.firstcard)
+            b2.alpha = 0.5f
             requestBody.put("position", 2)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -543,6 +550,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -550,7 +558,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b3.setOnClickListener {
-            b3.setImageResource(R.drawable.firstcard)
+            b3.alpha = 0.5f
             requestBody.put("position", 3)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -566,6 +574,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -573,7 +582,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b4.setOnClickListener {
-            b4.setImageResource(R.drawable.firstcard)
+            b4.alpha = 0.5f
             requestBody.put("position", 4)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -589,6 +598,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -596,7 +606,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b5.setOnClickListener {
-            b5.setImageResource(R.drawable.firstcard)
+            b5.alpha = 0.5f
             requestBody.put("position", 5)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -612,6 +622,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -619,7 +630,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b6.setOnClickListener {
-            b6.setImageResource(R.drawable.firstcard)
+            b6.alpha = 0.5f
             requestBody.put("position", 6)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -635,6 +646,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -642,7 +654,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b7.setOnClickListener {
-            b7.setImageResource(R.drawable.firstcard)
+            b7.alpha = 0.5f
             requestBody.put("position", 7)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -658,6 +670,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -665,7 +678,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b8.setOnClickListener {
-            b8.setImageResource(R.drawable.firstcard)
+            b8.alpha = 0.5f
             requestBody.put("position", 8)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -681,6 +694,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -688,7 +702,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b9.setOnClickListener {
-            b9.setImageResource(R.drawable.firstcard)
+            b9.alpha = 0.5f
             requestBody.put("position", 9)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -704,6 +718,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -711,7 +726,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b10.setOnClickListener {
-            b10.setImageResource(R.drawable.firstcard)
+            b10.alpha = 0.5f
             requestBody.put("position", 10)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -727,6 +742,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -734,7 +750,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b11.setOnClickListener {
-            b11.setImageResource(R.drawable.firstcard)
+            b11.alpha = 0.5f
             requestBody.put("position", 11)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -750,6 +766,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -757,7 +774,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b12.setOnClickListener {
-            b12.setImageResource(R.drawable.firstcard)
+            b12.alpha = 0.5f
             requestBody.put("position", 12)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -773,6 +790,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -780,7 +798,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b13.setOnClickListener {
-            b13.setImageResource(R.drawable.firstcard)
+            b13.alpha = 0.5f
             requestBody.put("position", 13)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -796,6 +814,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -803,7 +822,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b14.setOnClickListener {
-            b14.setImageResource(R.drawable.firstcard)
+            b14.alpha = 0.5f
             requestBody.put("position", 14)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -819,6 +838,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -826,7 +846,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b15.setOnClickListener {
-            b15.setImageResource(R.drawable.firstcard)
+            b15.alpha = 0.5f
             requestBody.put("position", 15)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -842,6 +862,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -849,7 +870,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b16.setOnClickListener {
-            b16.setImageResource(R.drawable.firstcard)
+            b16.alpha = 0.5f
             requestBody.put("position", 16)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -865,6 +886,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -872,7 +894,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b17.setOnClickListener {
-            b17.setImageResource(R.drawable.firstcard)
+            b17.alpha = 0.5f
             requestBody.put("position", 17)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -888,13 +910,14 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
             })
         }
         b18.setOnClickListener {
-            b18.setImageResource(R.drawable.firstcard)
+            b18.alpha = 0.5f
             requestBody.put("position", 18)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -910,6 +933,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -917,7 +941,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b19.setOnClickListener {
-            b19.setImageResource(R.drawable.firstcard)
+            b19.alpha = 0.5f
             requestBody.put("position", 19)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -933,6 +957,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -940,7 +965,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b20.setOnClickListener {
-            b20.setImageResource(R.drawable.firstcard)
+            b20.alpha = 0.5f
             requestBody.put("position", 20)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -956,6 +981,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -963,7 +989,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b21.setOnClickListener {
-            b21.setImageResource(R.drawable.firstcard)
+            b21.alpha = 0.5f
             requestBody.put("position", 21)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -979,6 +1005,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -986,7 +1013,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b22.setOnClickListener {
-            b22.setImageResource(R.drawable.firstcard)
+            b22.alpha = 0.5f
             requestBody.put("position", 22)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -1002,6 +1029,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -1009,7 +1037,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b23.setOnClickListener {
-            b23.setImageResource(R.drawable.firstcard)
+            b23.alpha = 0.5f
             requestBody.put("position", 23)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -1025,6 +1053,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -1032,7 +1061,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b24.setOnClickListener {
-            b24.setImageResource(R.drawable.firstcard)
+            b24.alpha = 0.5f
             requestBody.put("position", 24)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -1048,6 +1077,7 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
@@ -1055,7 +1085,7 @@ class GameActivity2 : AppCompatActivity() {
         }
 
         b25.setOnClickListener {
-            b25.setImageResource(R.drawable.firstcard)
+            b25.alpha = 0.5f
             requestBody.put("position", 25)
             val request = Request.Builder()
                 .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
@@ -1071,12 +1101,14 @@ class GameActivity2 : AppCompatActivity() {
                             val tileId = jsonObject.getInt("tileid")
                             mhand.add(tileId)
                             dialog.dismiss()
+                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
             })
         }
         current_val = mhand[mhand.size-1]
+        dialog.setContentView(dialogView)
         dialog.show()
     }
     private fun openopcard(pos: Int, tid: Int) {
