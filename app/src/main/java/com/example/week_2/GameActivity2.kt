@@ -289,13 +289,14 @@ class GameActivity2 : AppCompatActivity() {
         }
         handler2.postDelayed(runnable, 1000) // 1초(1000ms) 딜레이 후에 runnable 실행
         //게임 종료 시 while문 탈출
-        setContentView(R.layout.winlose)
-        val winLoseText = findViewById<TextView>(R.id.winlose_text)
-        val finishButton = findViewById<Button>(R.id.finish_button)
-
-        if(m_remain==0) { winLoseText.text = "패배했습니다" }
-        else { winLoseText.text = "승리했습니다" }
-        finishButton.setOnClickListener { finish() }
+        if(m_remain==0 || o_remain==0) {
+            setContentView(R.layout.winlose)
+            val winLoseText = findViewById<TextView>(R.id.winlose_text)
+            val finishButton = findViewById<Button>(R.id.finish_button)
+            if(m_remain==0) { winLoseText.text = "패배했습니다" }
+            else { winLoseText.text = "승리했습니다" }
+            finishButton.setOnClickListener { finish() }
+        }
     }
     class CustomDialog(context: Context, private val gameActivity2: GameActivity2) : Dialog(context) {
         override fun onCreate(savedInstanceState: Bundle?) {
