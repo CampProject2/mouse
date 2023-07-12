@@ -481,6 +481,8 @@ class GameActivity2 : AppCompatActivity() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.board, null)
         val dialog = Dialog(this)
         val client = OkHttpClient()
+        dialog.setContentView(dialogView)
+        dialog.show()
 
 //        val b0 = dialogView.findViewById<ImageView>(R.id.b_0)
 //        val b1 = dialogView.findViewById<ImageView>(R.id.b_1)
@@ -1288,8 +1290,6 @@ class GameActivity2 : AppCompatActivity() {
                 }
             })
         }
-        dialog.setContentView(dialogView)
-        dialog.show()
     }
     private fun openopcard(pos: Int, tid: Int) {
         if(pos==0) {
