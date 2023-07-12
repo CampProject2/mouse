@@ -41,32 +41,32 @@ class GameActivity2 : AppCompatActivity() {
     private var current_val: Int = 0
     var gNum: Int = 0
 
-//    private lateinit var b0: ImageView
-//    private lateinit var b1: ImageView
-//    private lateinit var b2: ImageView
-//    private lateinit var b3: ImageView
-//    private lateinit var b4: ImageView
-//    private lateinit var b5: ImageView
-//    private lateinit var b6: ImageView
-//    private lateinit var b7: ImageView
-//    private lateinit var b8: ImageView
-//    private lateinit var b9: ImageView
-//    private lateinit var b10: ImageView
-//    private lateinit var b11: ImageView
-//    private lateinit var b12: ImageView
-//    private lateinit var b13: ImageView
-//    private lateinit var b14: ImageView
-//    private lateinit var b15: ImageView
-//    private lateinit var b16: ImageView
-//    private lateinit var b17: ImageView
-//    private lateinit var b18: ImageView
-//    private lateinit var b19: ImageView
-//    private lateinit var b20: ImageView
-//    private lateinit var b21: ImageView
-//    private lateinit var b22: ImageView
-//    private lateinit var b23: ImageView
-//    private lateinit var b24: ImageView
-//    private lateinit var b25: ImageView
+    private lateinit var b0: ImageView
+    private lateinit var b1: ImageView
+    private lateinit var b2: ImageView
+    private lateinit var b3: ImageView
+    private lateinit var b4: ImageView
+    private lateinit var b5: ImageView
+    private lateinit var b6: ImageView
+    private lateinit var b7: ImageView
+    private lateinit var b8: ImageView
+    private lateinit var b9: ImageView
+    private lateinit var b10: ImageView
+    private lateinit var b11: ImageView
+    private lateinit var b12: ImageView
+    private lateinit var b13: ImageView
+    private lateinit var b14: ImageView
+    private lateinit var b15: ImageView
+    private lateinit var b16: ImageView
+    private lateinit var b17: ImageView
+    private lateinit var b18: ImageView
+    private lateinit var b19: ImageView
+    private lateinit var b20: ImageView
+    private lateinit var b21: ImageView
+    private lateinit var b22: ImageView
+    private lateinit var b23: ImageView
+    private lateinit var b24: ImageView
+    private lateinit var b25: ImageView
 
     private lateinit var m0: ImageView
     private lateinit var m1: ImageView
@@ -448,7 +448,9 @@ class GameActivity2 : AppCompatActivity() {
                 client.newCall(request).enqueue(object : Callback {
                     override fun onFailure(call: Call, e: IOException) {}
                     override fun onResponse(call: Call, response: Response) {
-                        if (response.isSuccessful) {
+                        Log.d("hshs", "tt1")
+                    if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                             val responseData = response.body?.string()
                             // 받은 데이터에서 필요한 값을 추출하여 'turn' 변수에 저장
                             val jsonObject = JSONObject(responseData)
@@ -482,32 +484,59 @@ class GameActivity2 : AppCompatActivity() {
         val mediaType = "application/json".toMediaTypeOrNull()
         val client = OkHttpClient()
 
-        val b0 = dialogView.findViewById<ImageView>(R.id.b_0)
-        val b1 = dialogView.findViewById<ImageView>(R.id.b_1)
-        val b2 = dialogView.findViewById<ImageView>(R.id.b_2)
-        val b3 = dialogView.findViewById<ImageView>(R.id.b_3)
-        val b4 = dialogView.findViewById<ImageView>(R.id.b_4)
-        val b5 = dialogView.findViewById<ImageView>(R.id.b_5)
-        val b6 = dialogView.findViewById<ImageView>(R.id.b_6)
-        val b7 = dialogView.findViewById<ImageView>(R.id.b_7)
-        val b8 = dialogView.findViewById<ImageView>(R.id.b_8)
-        val b9 = dialogView.findViewById<ImageView>(R.id.b_9)
-        val b10 = dialogView.findViewById<ImageView>(R.id.b_10)
-        val b11 = dialogView.findViewById<ImageView>(R.id.b_11)
-        val b12 = dialogView.findViewById<ImageView>(R.id.b_12)
-        val b13 = dialogView.findViewById<ImageView>(R.id.b_13)
-        val b14 = dialogView.findViewById<ImageView>(R.id.b_14)
-        val b15 = dialogView.findViewById<ImageView>(R.id.b_15)
-        val b16 = dialogView.findViewById<ImageView>(R.id.b_16)
-        val b17 = dialogView.findViewById<ImageView>(R.id.b_17)
-        val b18 = dialogView.findViewById<ImageView>(R.id.b_18)
-        val b19 = dialogView.findViewById<ImageView>(R.id.b_19)
-        val b20 = dialogView.findViewById<ImageView>(R.id.b_20)
-        val b21 = dialogView.findViewById<ImageView>(R.id.b_21)
-        val b22 = dialogView.findViewById<ImageView>(R.id.b_22)
-        val b23 = dialogView.findViewById<ImageView>(R.id.b_23)
-        val b24 = dialogView.findViewById<ImageView>(R.id.b_24)
-        val b25 = dialogView.findViewById<ImageView>(R.id.b_25)
+//        val b0 = dialogView.findViewById<ImageView>(R.id.b_0)
+//        val b1 = dialogView.findViewById<ImageView>(R.id.b_1)
+//        val b2 = dialogView.findViewById<ImageView>(R.id.b_2)
+//        val b3 = dialogView.findViewById<ImageView>(R.id.b_3)
+//        val b4 = dialogView.findViewById<ImageView>(R.id.b_4)
+//        val b5 = dialogView.findViewById<ImageView>(R.id.b_5)
+//        val b6 = dialogView.findViewById<ImageView>(R.id.b_6)
+//        val b7 = dialogView.findViewById<ImageView>(R.id.b_7)
+//        val b8 = dialogView.findViewById<ImageView>(R.id.b_8)
+//        val b9 = dialogView.findViewById<ImageView>(R.id.b_9)
+//        val b10 = dialogView.findViewById<ImageView>(R.id.b_10)
+//        val b11 = dialogView.findViewById<ImageView>(R.id.b_11)
+//        val b12 = dialogView.findViewById<ImageView>(R.id.b_12)
+//        val b13 = dialogView.findViewById<ImageView>(R.id.b_13)
+//        val b14 = dialogView.findViewById<ImageView>(R.id.b_14)
+//        val b15 = dialogView.findViewById<ImageView>(R.id.b_15)
+//        val b16 = dialogView.findViewById<ImageView>(R.id.b_16)
+//        val b17 = dialogView.findViewById<ImageView>(R.id.b_17)
+//        val b18 = dialogView.findViewById<ImageView>(R.id.b_18)
+//        val b19 = dialogView.findViewById<ImageView>(R.id.b_19)
+//        val b20 = dialogView.findViewById<ImageView>(R.id.b_20)
+//        val b21 = dialogView.findViewById<ImageView>(R.id.b_21)
+//        val b22 = dialogView.findViewById<ImageView>(R.id.b_22)
+//        val b23 = dialogView.findViewById<ImageView>(R.id.b_23)
+//        val b24 = dialogView.findViewById<ImageView>(R.id.b_24)
+//        val b25 = dialogView.findViewById<ImageView>(R.id.b_25)
+
+        b0 = dialogView.findViewById<ImageView>(R.id.b_0)
+        b1 = dialogView.findViewById<ImageView>(R.id.b_1)
+        b2 = dialogView.findViewById<ImageView>(R.id.b_2)
+        b3 = dialogView.findViewById<ImageView>(R.id.b_3)
+        b4 = dialogView.findViewById<ImageView>(R.id.b_4)
+        b5 = dialogView.findViewById<ImageView>(R.id.b_5)
+        b6 = dialogView.findViewById<ImageView>(R.id.b_6)
+        b7 = dialogView.findViewById<ImageView>(R.id.b_7)
+        b8 = dialogView.findViewById<ImageView>(R.id.b_8)
+        b9 = dialogView.findViewById<ImageView>(R.id.b_9)
+        b10 = dialogView.findViewById<ImageView>(R.id.b_10)
+        b11 = dialogView.findViewById<ImageView>(R.id.b_11)
+        b12 = dialogView.findViewById<ImageView>(R.id.b_12)
+        b13 = dialogView.findViewById<ImageView>(R.id.b_13)
+        b14 = dialogView.findViewById<ImageView>(R.id.b_14)
+        b15 = dialogView.findViewById<ImageView>(R.id.b_15)
+        b16 = dialogView.findViewById<ImageView>(R.id.b_16)
+        b17 = dialogView.findViewById<ImageView>(R.id.b_17)
+        b18 = dialogView.findViewById<ImageView>(R.id.b_18)
+        b19 = dialogView.findViewById<ImageView>(R.id.b_19)
+        b20 = dialogView.findViewById<ImageView>(R.id.b_20)
+        b21 = dialogView.findViewById<ImageView>(R.id.b_21)
+        b22 = dialogView.findViewById<ImageView>(R.id.b_22)
+        b23 = dialogView.findViewById<ImageView>(R.id.b_23)
+        b24 = dialogView.findViewById<ImageView>(R.id.b_24)
+        b25 = dialogView.findViewById<ImageView>(R.id.b_25)
 
         b0.setOnClickListener {
             b0.alpha = 0.5f
@@ -519,7 +548,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -544,7 +575,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -569,7 +602,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -594,7 +629,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -619,7 +656,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -644,7 +683,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -669,7 +710,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -694,7 +737,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -719,7 +764,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -744,7 +791,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -769,7 +818,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -794,7 +845,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -819,7 +872,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -844,7 +899,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -869,7 +926,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -894,7 +953,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -919,7 +980,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -944,7 +1007,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -968,7 +1033,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -993,7 +1060,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -1018,7 +1087,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -1043,7 +1114,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -1068,7 +1141,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -1093,7 +1168,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -1118,7 +1195,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
@@ -1143,7 +1222,9 @@ class GameActivity2 : AppCompatActivity() {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {}
                 override fun onResponse(call: Call, response: Response) {
+                    Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
+                        Log.d("hshs", "tt2")
                         val responseData = response.body?.string()
                         if (!responseData.isNullOrBlank()) {
                             val jsonObject = JSONObject(responseData)
