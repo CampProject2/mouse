@@ -21,7 +21,7 @@
 ## Kakao Login
 
 
-https://github.com/CampProject2/mouse/assets/135544903/31df3b58-634a-42b5-9d1a-57441286eb2e
+<img src = "https://github.com/CampProject2/mouse/assets/135544903/31df3b58-634a-42b5-9d1a-57441286eb2e" height ="400" weight = "800"/>
 
 - 카카오 개발자에 등록한 후 카카오 SDK를 이용하여 앱 초기화면에 카카오 계정 로그인을 통해 게임을 시작하도록 구현하였다.
 
