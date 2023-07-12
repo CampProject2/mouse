@@ -135,7 +135,7 @@ class GameActivity2 : AppCompatActivity() {
             for(i in 0 until 4) { selectCard() }
             val handler3 = Handler(Looper.getMainLooper()) // UI 스레드의 Handler 생성
             val runnable1 = Runnable {
-                Log.d("hshs", s.toString())
+                Log.d("hshs...", s.toString())
                 if(s==4) {
                     s=0
                     Log.d("hshs", "cho")
@@ -148,7 +148,6 @@ class GameActivity2 : AppCompatActivity() {
                 }
             }
             if(s<4) { handler3.postDelayed(runnable1, 1000) }
-
         }
         else {
             val dialog = Dialog(this)
@@ -506,7 +505,7 @@ class GameActivity2 : AppCompatActivity() {
                 b0.alpha = 0.5f
                 val json = JSONObject()
                 json.put("position", 0)
-                Log.d("hshs", "tt0")
+//                Log.d("hshs", "tt0")
                 val requestBody = json.toString().toRequestBody("application/json".toMediaType())
                 val request = Request.Builder()
                     .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -515,9 +514,9 @@ class GameActivity2 : AppCompatActivity() {
                 client.newCall(request).enqueue(object : Callback {
                     override fun onFailure(call: Call, e: IOException) {}
                     override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
+//                        Log.d("hshs", "111")
                         if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
+                            Log.d("hshs", "222")
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
