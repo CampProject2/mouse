@@ -142,8 +142,10 @@ class gameset : AppCompatActivity() {
     }
     private fun sendRequest(url: String) {
         val client = OkHttpClient()
-        val requestBody = kid.toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
+        val json=JSONObject()
+        json.put("id", kid.toString())
+        val requestBody = json.toString().toRequestBody("application/json".toMediaType())
         val request = Request.Builder()
             .url(url)
             .post(requestBody)
