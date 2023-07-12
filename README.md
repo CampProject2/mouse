@@ -27,7 +27,7 @@
 
 
 ## Main page
-
+<img src = "https://github.com/CampProject2/mouse/assets/135544903/77ffc469-c97b-4276-96f8-2b344357966a" height ="400" weight = "800"/>
 
 - 카카오 로그인을 완료하면 게임 메인 페이지에 들어가게 된다. 우측 상단에 있는 ```환경설정``` 버튼과 화면 중앙에 있는 ```게임시작``` 버튼을 누를 수 있도록 만들었다.
 
