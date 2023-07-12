@@ -354,19 +354,24 @@ class GameActivity2 : AppCompatActivity() {
             override fun onResponse(call: Call, response: Response) {}
         })
     }
+
     class MyRepeatingTask(gameActivity2: GameActivity2) {
         var remainTime: Long =10000
         private val url = "https://854c-192-249-19-234.ngrok-free.app/myturn" // 요청을 보낼 URL
         private val client = OkHttpClient() // OkHttpClient 인스턴스 생성
         private val handlerThread = HandlerThread("MyHandlerThread") // HandlerThread 생성
         private lateinit var handler: Handler // Handler 선언
+        val mediaType = "application/json".toMediaTypeOrNull()
 
         private val runnable = object : Runnable {
             override fun run() {
                 remainTime -= 1000
+                val requestBody = JSONObject().apply {
+                    put("kid", gameActivity2.kid)
+                }
                 val request = Request.Builder()
                     .url(url)
-                    .get()
+                    .post(requestBody.toString().toRequestBody(mediaType))
                     .build()
                 client.newCall(request).enqueue(object : Callback {
                     override fun onFailure(call: Call, e: IOException) {}
