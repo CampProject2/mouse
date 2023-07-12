@@ -2,6 +2,7 @@ package com.example.week_2
 
 import android.app.Dialog
 import android.content.Context
+import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
@@ -103,6 +104,7 @@ class GameActivity2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game2)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
 
         m0 = findViewById<ImageView>(R.id.mc_0)
         m1 = findViewById<ImageView>(R.id.mc_1)
@@ -539,6 +541,7 @@ class GameActivity2 : AppCompatActivity() {
         b25 = dialogView.findViewById<ImageView>(R.id.b_25)
 
         b0.setOnClickListener {
+            Log.d("hshs", "tt0")
             b0.alpha = 0.5f
             val json = JSONObject()
             json.put("position", 0)
