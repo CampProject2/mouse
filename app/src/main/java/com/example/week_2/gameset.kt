@@ -51,7 +51,7 @@ class gameset : AppCompatActivity() {
         }
         gamestartButton = findViewById(R.id.gamestartButton)
         gamestartButton.setOnClickListener {
-            sendRequest("https://23af-192-249-19-234.ngrok-free.app/match")
+            sendRequest("https://854c-192-249-19-234.ngrok-free.app/match")
         }
     }
     private fun postKid() {
@@ -65,7 +65,7 @@ class gameset : AppCompatActivity() {
 
         val requestBody = jsonBody.toRequestBody("application/json".toMediaTypeOrNull())
         val request = Request.Builder()
-            .url("https://23af-192-249-19-234.ngrok-free.app/kakao-account-info")
+            .url("https://854c-192-249-19-234.ngrok-free.app/kakao-account-info")
             .post(requestBody)
             .build()
         client.newCall(request).enqueue(object : Callback {
@@ -88,7 +88,7 @@ class gameset : AppCompatActivity() {
         val client = OkHttpClient()
 
         val request = Request.Builder()
-            .url("https://23af-192-249-19-234.ngrok-free.app/win-loss-count/kakaoId?kakaoId=$kakaoId")
+            .url("https://854c-192-249-19-234.ngrok-free.app/win-loss-count/kakaoId?kakaoId=$kakaoId")
             .get()
             .build()
 
@@ -142,15 +142,13 @@ class gameset : AppCompatActivity() {
     }
     private fun sendRequest(url: String) {
         val client = OkHttpClient()
-        val json=JSONObject()
-        json.put("player",kid.toString())
-        val requestBody = json.toString().toRequestBody("application/json".toMediaType())
+        val requestBody = kid.toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
         val request = Request.Builder()
             .url(url)
             .post(requestBody)
             .build()
-        Log.d("hshs", "test 1")
+//        Log.d("hshs", "test 1")
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
@@ -158,9 +156,9 @@ class gameset : AppCompatActivity() {
             }
             override fun onResponse(call: Call, response: Response) {
                 // 응답 받은 후 처리할 작업
-                Log.d("hshs", "test 2")
+//                Log.d("hshs", "test 2")
                 if (response.isSuccessful) {
-                    Log.d("hshs", "test 3")
+//                    Log.d("hshs", "test 3")
                     val responseData = response.body?.string()
                     if (!responseData.isNullOrBlank()) {
                         val jsonObject = JSONObject(responseData)
@@ -168,6 +166,7 @@ class gameset : AppCompatActivity() {
                         val opponent = jsonObject.getString("opponent")
                         val num = jsonObject.getInt("value")
                         // 저장된 값 활용
+                        Log.d("ss", opponent)
                         val intent = Intent(this@gameset, GameActivity2::class.java)
                         intent.putExtra("kid", kid.toString())
                         intent.putExtra("opponent", opponent)
