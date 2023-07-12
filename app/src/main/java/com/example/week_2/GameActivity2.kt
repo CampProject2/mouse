@@ -154,9 +154,7 @@ class GameActivity2 : AppCompatActivity() {
 
         // 추출한 값 활용하여 게임 화면 구성 또는 게임 로직 처리
         if(turn==1) {
-            for(i in 0 until 4) {
-                selectCard()
-            }
+            for(i in 0 until 4) { selectCard() }
         }
         else {
             val dialog = Dialog(this)
@@ -192,9 +190,8 @@ class GameActivity2 : AppCompatActivity() {
                         }
                     }
                 })
-                for(i in 0 until 4) {
-                    selectCard()
-                }
+                //select card 4
+                for(i in 0 until 4) { selectCard() }
             }
         }
 
@@ -211,7 +208,7 @@ class GameActivity2 : AppCompatActivity() {
             while(m_remain!=0 && o_remain!=0) {
                 if(g==0) {
                     if(turn==1) {
-                        if(choosed_card >= 26) {
+                        if(choosed_card < 26) {
                             selectCard()
                             choosed_card++
                             mhand.sort()
@@ -232,9 +229,9 @@ class GameActivity2 : AppCompatActivity() {
                         repeatingTask.remainTime = 30000 // 30초로 설정
                         repeatingTask.startRepeatingTask()
 
-                        if(m_remain==0 || o_remain==0) { break }
                         if(turn==1) {
                             //yourhand update
+                            o_remain = 0
                             val Client2 = OkHttpClient() // OkHttpClient 인스턴스 생성
                             val json=JSONObject()
                             json.put("opponent",opponent)
@@ -254,13 +251,16 @@ class GameActivity2 : AppCompatActivity() {
                                         val tileid = jsonObject.getInt("tileid")
                                         val open = jsonObject.getInt("down")
                                         ohand.add(tileid)
+                                        if(open==1) { o_remain-- }
                                         down[tileid] = open
                                         setopcard(i, tileid)
                                     }
+                                    o_remain += ohand.size
                                 }
                             })
+                            if(m_remain==0 || o_remain==0) { break }
                             //turn start
-                            if(choosed_card >= 26) {
+                            if(choosed_card < 26) {
                                 selectCard()
                                 choosed_card++
                                 mhand.sort()
@@ -360,15 +360,26 @@ class GameActivity2 : AppCompatActivity() {
         //다이얼로그 띄우기
         val customDialog = CustomDialog(this, this@GameActivity2)
         customDialog.show()
-
         if((ohand[pos] / 2) == gNum) {
+            //yourhand update
             down[ohand[pos]] = 1
             openopcard(pos, ohand[pos])
             m_remain ++
             o_remain --
             //어디론가 맞혔다는 정보 전달
-
-
+            val json = JSONObject()
+            json.put("opponent", opponent)
+            json.put("id", pos)
+            val requestBody = json.toString().toRequestBody("application/json".toMediaType())
+            val request = Request.Builder()
+                .url("https://3db2-192-249-19-234.ngrok-free.app/correct")
+                .post(requestBody)
+                .build()
+            val client = OkHttpClient()
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {}
+                override fun onResponse(call: Call, response: Response) {}
+            })
         }
         else { down[current_val] = 1 }
         for(i in 0 until mhand.size) { sendmhand(i) }
