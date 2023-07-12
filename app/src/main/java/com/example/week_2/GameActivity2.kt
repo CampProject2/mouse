@@ -514,6 +514,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -538,6 +539,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -562,6 +564,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -586,6 +589,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -610,6 +614,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -634,6 +639,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -658,6 +664,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -682,6 +689,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -706,6 +714,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -730,6 +739,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -754,6 +764,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -778,6 +789,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -802,6 +814,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -826,6 +839,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -850,6 +864,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -874,6 +889,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -898,6 +914,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -922,6 +939,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -945,6 +963,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -969,6 +988,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -993,6 +1013,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -1017,6 +1038,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -1041,6 +1063,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -1065,6 +1088,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -1089,6 +1113,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
@@ -1113,6 +1138,7 @@ class GameActivity2 : AppCompatActivity() {
                             mhand.add(tileId)
                             dialog.dismiss()
                             Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+                            current_val = mhand[mhand.size-1]
                         }
                     }
                 }
