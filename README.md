@@ -21,7 +21,7 @@
 ## Kakao Login
 
 
-https://github.com/CampProject2/mouse/assets/135544903/31df3b58-634a-42b5-9d1a-57441286eb2e
+<img src = "https://github.com/CampProject2/mouse/assets/135544903/31df3b58-634a-42b5-9d1a-57441286eb2e" height ="400" weight = "800"/>
 
 - 카카오 개발자에 등록한 후 카카오 SDK를 이용하여 앱 초기화면에 카카오 계정 로그인을 통해 게임을 시작하도록 구현하였다.
 
@@ -38,20 +38,10 @@ https://github.com/CampProject2/mouse/assets/135544903/31df3b58-634a-42b5-9d1a-5
 - 카카오 로그인을 한 계정을 불러오며 그 전에 게임을 한 적이 있디면 승, 패 전적을 DB에 넣어놓아서 전체 승패횟수와 승률을 볼 수 있게 구현하였다.
 
 
+## Game Start
 
+<img src = "https://github.com/CampProject2/mouse/assets/135544903/5bf99e69-7dc5-4263-b61e-16dc2290b7af" height ="400" weight = "800"/>
 
-* * * * 
-
-
-# Game Start
-
-https://github.com/CampProject2/mouse/assets/135544903/5bf99e69-7dc5-4263-b61e-16dc2290b7af
-
-
-
-|scroll|share|
-|------|------|
-![tab2_scroll](https://github.com/Gloveman/CampProject1/assets/135544903/b82532cb-f311-41e4-a6bf-7d04d6ba2865)|![tab2_share](https://github.com/Gloveman/CampProject1/assets/135544903/74660b38-09ab-4c7b-981d-2ff67281c451)|
 
 
 #### Major features
