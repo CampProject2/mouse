@@ -30,6 +30,7 @@ import okhttp3.Response
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
+import kotlin.concurrent.thread
 
 class GameActivity2 : AppCompatActivity() {
 
@@ -43,6 +44,7 @@ class GameActivity2 : AppCompatActivity() {
     private var current_val: Int = 0
     var gNum: Int = 0
     var s: Int = 0
+    var start: Int = 0
 
     private lateinit var m0: ImageView
     private lateinit var m1: ImageView
@@ -208,7 +210,7 @@ class GameActivity2 : AppCompatActivity() {
 //        Log.d("hshshs", o_remain.toString())
         val handler2 = Handler(Looper.getMainLooper()) // UI 스레드의 Handler 생성
         val runnable = Runnable {
-            if(m_remain!=0 && o_remain!=0) {
+            if(start==1 && m_remain!=0 && o_remain!=0) {
                 if(g==0) {
                     Log.d("nn", "hi")
                     if(turn==1) {
@@ -480,7 +482,7 @@ class GameActivity2 : AppCompatActivity() {
             super.onCreate(savedInstanceState)
             setContentView(R.layout.board)
 
-            val b0 = findViewById<Button>(R.id.b_0)
+            val b0 = findViewById<ImageView>(R.id.b_0)
             val b1 = findViewById<ImageView>(R.id.b_1)
             val b2 = findViewById<ImageView>(R.id.b_2)
             val b3 = findViewById<ImageView>(R.id.b_3)
@@ -509,573 +511,756 @@ class GameActivity2 : AppCompatActivity() {
             val client = OkHttpClient()
 
             b0.setOnClickListener {
-                b0.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 0)
+                thread(start=true) {
+                    b0.alpha = 0.5f
+                    val json = JSONObject()
+                    json.put("position", 0)
 //                Log.d("hshs", "tt0")
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
+                    val requestBody = json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
 //                        Log.d("hshs", "111")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "222")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                            Log.d("111", "pppppp")
+                            if (response.isSuccessful) {
+                                Log.d("222", "pppppp")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
+                                    gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
 
             b1.setOnClickListener {
                 b1.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 1)
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                thread(start=true) {
+                    val json = JSONObject()
+                    json.put("position", 1)
+                    val requestBody =
+                        json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            Log.d("hshs", "tt1")
+                            if (response.isSuccessful) {
+                                Log.d("hshs", "tt2")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread {
+                                        Toast.makeText(
+                                            gameActivity2,
+                                            "카드를 뽑았습니다",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    gameActivity2.current_val =
+                                        gameActivity2.mhand[gameActivity2.mhand.size - 1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
 
             b2.setOnClickListener {
-                b2.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 2)
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                thread(start=true) {
+                    b2.alpha = 0.5f
+                    val json = JSONObject()
+                    json.put("position", 2)
+                    val requestBody =
+                        json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            Log.d("hshs", "tt1")
+                            if (response.isSuccessful) {
+                                Log.d("hshs", "tt2")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread {
+                                        Toast.makeText(
+                                            gameActivity2,
+                                            "카드를 뽑았습니다",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    gameActivity2.current_val =
+                                        gameActivity2.mhand[gameActivity2.mhand.size - 1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
 
             b3.setOnClickListener {
                 b3.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 3)
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                thread(start=true) {
+                    val json = JSONObject()
+                    json.put("position", 3)
+                    val requestBody =
+                        json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            Log.d("hshs", "tt1")
+                            if (response.isSuccessful) {
+                                Log.d("hshs", "tt2")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread {
+                                        Toast.makeText(
+                                            gameActivity2,
+                                            "카드를 뽑았습니다",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    gameActivity2.current_val =
+                                        gameActivity2.mhand[gameActivity2.mhand.size - 1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
 
             b4.setOnClickListener {
                 b4.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 4)
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                thread(start=true) {
+                    val json = JSONObject()
+                    json.put("position", 4)
+                    val requestBody =
+                        json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            Log.d("hshs", "tt1")
+                            if (response.isSuccessful) {
+                                Log.d("hshs", "tt2")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread {
+                                        Toast.makeText(
+                                            gameActivity2,
+                                            "카드를 뽑았습니다",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    gameActivity2.current_val =
+                                        gameActivity2.mhand[gameActivity2.mhand.size - 1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
 
             b5.setOnClickListener {
                 b5.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 5)
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                thread(start=true) {
+                    val json = JSONObject()
+                    json.put("position", 5)
+                    val requestBody =
+                        json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            Log.d("hshs", "tt1")
+                            if (response.isSuccessful) {
+                                Log.d("hshs", "tt2")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread {
+                                        Toast.makeText(
+                                            gameActivity2,
+                                            "카드를 뽑았습니다",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    gameActivity2.current_val =
+                                        gameActivity2.mhand[gameActivity2.mhand.size - 1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
 
             b6.setOnClickListener {
                 b6.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 6)
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                thread(start=true) {
+                    val json = JSONObject()
+                    json.put("position", 6)
+                    val requestBody =
+                        json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            Log.d("hshs", "tt1")
+                            if (response.isSuccessful) {
+                                Log.d("hshs", "tt2")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread {
+                                        Toast.makeText(
+                                            gameActivity2,
+                                            "카드를 뽑았습니다",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    gameActivity2.current_val =
+                                        gameActivity2.mhand[gameActivity2.mhand.size - 1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
 
             b7.setOnClickListener {
                 b7.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 7)
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                thread(start=true) {
+                    val json = JSONObject()
+                    json.put("position", 7)
+                    val requestBody =
+                        json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            Log.d("hshs", "tt1")
+                            if (response.isSuccessful) {
+                                Log.d("hshs", "tt2")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread {
+                                        Toast.makeText(
+                                            gameActivity2,
+                                            "카드를 뽑았습니다",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    gameActivity2.current_val =
+                                        gameActivity2.mhand[gameActivity2.mhand.size - 1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
 
             b8.setOnClickListener {
                 b8.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 8)
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                thread(start=true) {
+                    val json = JSONObject()
+                    json.put("position", 8)
+                    val requestBody =
+                        json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            Log.d("hshs", "tt1")
+                            if (response.isSuccessful) {
+                                Log.d("hshs", "tt2")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread {
+                                        Toast.makeText(
+                                            gameActivity2,
+                                            "카드를 뽑았습니다",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    gameActivity2.current_val =
+                                        gameActivity2.mhand[gameActivity2.mhand.size - 1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
 
             b9.setOnClickListener {
                 b9.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 9)
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                thread(start=true) {
+                    val json = JSONObject()
+                    json.put("position", 9)
+                    val requestBody =
+                        json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            Log.d("hshs", "tt1")
+                            if (response.isSuccessful) {
+                                Log.d("hshs", "tt2")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread {
+                                        Toast.makeText(
+                                            gameActivity2,
+                                            "카드를 뽑았습니다",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    gameActivity2.current_val =
+                                        gameActivity2.mhand[gameActivity2.mhand.size - 1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
 
             b10.setOnClickListener {
                 b10.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 10)
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                thread(start=true) {
+                    val json = JSONObject()
+                    json.put("position", 10)
+                    val requestBody =
+                        json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            Log.d("hshs", "tt1")
+                            if (response.isSuccessful) {
+                                Log.d("hshs", "tt2")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread {
+                                        Toast.makeText(
+                                            gameActivity2,
+                                            "카드를 뽑았습니다",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    gameActivity2.current_val =
+                                        gameActivity2.mhand[gameActivity2.mhand.size - 1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
 
             b11.setOnClickListener {
                 b11.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 11)
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                thread(start=true) {
+                    val json = JSONObject()
+                    json.put("position", 11)
+                    val requestBody =
+                        json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            Log.d("hshs", "tt1")
+                            if (response.isSuccessful) {
+                                Log.d("hshs", "tt2")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread {
+                                        Toast.makeText(
+                                            gameActivity2,
+                                            "카드를 뽑았습니다",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    gameActivity2.current_val =
+                                        gameActivity2.mhand[gameActivity2.mhand.size - 1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
 
             b12.setOnClickListener {
                 b12.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 12)
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                thread(start=true) {
+                    val json = JSONObject()
+                    json.put("position", 12)
+                    val requestBody =
+                        json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            Log.d("hshs", "tt1")
+                            if (response.isSuccessful) {
+                                Log.d("hshs", "tt2")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread {
+                                        Toast.makeText(
+                                            gameActivity2,
+                                            "카드를 뽑았습니다",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    gameActivity2.current_val =
+                                        gameActivity2.mhand[gameActivity2.mhand.size - 1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                                        }
             }
 
             b13.setOnClickListener {
                 b13.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 13)
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                thread(start=true) {
+                    val json = JSONObject()
+                    json.put("position", 13)
+                    val requestBody =
+                        json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            Log.d("hshs", "tt1")
+                            if (response.isSuccessful) {
+                                Log.d("hshs", "tt2")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread {
+                                        Toast.makeText(
+                                            gameActivity2,
+                                            "카드를 뽑았습니다",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    gameActivity2.current_val =
+                                        gameActivity2.mhand[gameActivity2.mhand.size - 1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
 
             b14.setOnClickListener {
                 b14.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 14)
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                thread(start=true) {
+                    val json = JSONObject()
+                    json.put("position", 14)
+                    val requestBody =
+                        json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            Log.d("hshs", "tt1")
+                            if (response.isSuccessful) {
+                                Log.d("hshs", "tt2")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread {
+                                        Toast.makeText(
+                                            gameActivity2,
+                                            "카드를 뽑았습니다",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    gameActivity2.current_val =
+                                        gameActivity2.mhand[gameActivity2.mhand.size - 1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+}
             }
 
             b15.setOnClickListener {
                 b15.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 15)
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                thread(start=true) {
+                    val json = JSONObject()
+                    json.put("position", 15)
+                    val requestBody =
+                        json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            Log.d("hshs", "tt1")
+                            if (response.isSuccessful) {
+                                Log.d("hshs", "tt2")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread {
+                                        Toast.makeText(
+                                            gameActivity2,
+                                            "카드를 뽑았습니다",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    gameActivity2.current_val =
+                                        gameActivity2.mhand[gameActivity2.mhand.size - 1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
 
             b16.setOnClickListener {
                 b16.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 16)
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                thread(start=true) {
+                    val json = JSONObject()
+                    json.put("position", 16)
+                    val requestBody =
+                        json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            Log.d("hshs", "tt1")
+                            if (response.isSuccessful) {
+                                Log.d("hshs", "tt2")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread {
+                                        Toast.makeText(
+                                            gameActivity2,
+                                            "카드를 뽑았습니다",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    gameActivity2.current_val =
+                                        gameActivity2.mhand[gameActivity2.mhand.size - 1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
 
             b17.setOnClickListener {
                 b17.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 17)
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                thread(start=true) {
+                    val json = JSONObject()
+                    json.put("position", 17)
+                    val requestBody =
+                        json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            Log.d("hshs", "tt1")
+                            if (response.isSuccessful) {
+                                Log.d("hshs", "tt2")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread {
+                                        Toast.makeText(
+                                            gameActivity2,
+                                            "카드를 뽑았습니다",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    gameActivity2.current_val =
+                                        gameActivity2.mhand[gameActivity2.mhand.size - 1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
             b18.setOnClickListener {
                 b18.alpha = 0.5f
-                val json = JSONObject()
-                json.put("position", 18)
-                val requestBody = json.toString().toRequestBody("application/json".toMediaType())
-                val request = Request.Builder()
-                    .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
-                    .post(requestBody)
-                    .build()
-                client.newCall(request).enqueue(object : Callback {
-                    override fun onFailure(call: Call, e: IOException) {}
-                    override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
-                        if (response.isSuccessful) {
-                            Log.d("hshs", "tt2")
-                            val responseData = response.body?.string()
-                            if (!responseData.isNullOrBlank()) {
-                                val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
-                                val tileId = jsonObject.getInt("tileid")
-                                gameActivity2.mhand.add(tileId)
-                                dismiss()
-                                gameActivity2.runOnUiThread { Toast.makeText(gameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show() }
-                                gameActivity2.current_val = gameActivity2.mhand[gameActivity2.mhand.size-1]
+                thread(start=true) {
+                    val json = JSONObject()
+                    json.put("position", 18)
+                    val requestBody =
+                        json.toString().toRequestBody("application/json".toMediaType())
+                    val request = Request.Builder()
+                        .url("https://854c-192-249-19-234.ngrok-free.app/chooseTile")
+                        .post(requestBody)
+                        .build()
+                    client.newCall(request).enqueue(object : Callback {
+                        override fun onFailure(call: Call, e: IOException) {}
+                        override fun onResponse(call: Call, response: Response) {
+                            Log.d("hshs", "tt1")
+                            if (response.isSuccessful) {
+                                Log.d("hshs", "tt2")
+                                val responseData = response.body?.string()
+                                if (!responseData.isNullOrBlank()) {
+                                    val jsonObject = JSONObject(responseData)
+                                    gameActivity2.s++
+                                    val tileId = jsonObject.getInt("tileid")
+                                    gameActivity2.mhand.add(tileId)
+                                    dismiss()
+                                    gameActivity2.runOnUiThread {
+                                        Toast.makeText(
+                                            gameActivity2,
+                                            "카드를 뽑았습니다",
+                                            Toast.LENGTH_SHORT
+                                        ).show()
+                                    }
+                                    gameActivity2.current_val =
+                                        gameActivity2.mhand[gameActivity2.mhand.size - 1]
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
 
             b19.setOnClickListener {
