@@ -171,7 +171,7 @@ class GameActivity2 : AppCompatActivity() {
                 json.put("opponent",opponent)
                 val requestBody = json.toString().toRequestBody("application/json".toMediaType())
                 val Request2 = Request.Builder()
-                    .url("https://3db2-192-249-19-234.ngrok-free.app/yourhand")
+                    .url("https://23af-192-249-19-234.ngrok-free.app/yourhand")
                     .post(requestBody)
                     .build()
                 Client2.newCall(Request2).enqueue(object : Callback {
@@ -237,7 +237,7 @@ class GameActivity2 : AppCompatActivity() {
                             json.put("opponent",opponent)
                             val requestBody = json.toString().toRequestBody("application/json".toMediaType())
                             val Request2 = Request.Builder()
-                                .url("https://3db2-192-249-19-234.ngrok-free.app/yourhand")
+                                .url("https://23af-192-249-19-234.ngrok-free.app/yourhand")
                                 .post(requestBody)
                                 .build()
                             Client2.newCall(Request2).enqueue(object : Callback {
@@ -372,7 +372,7 @@ class GameActivity2 : AppCompatActivity() {
             json.put("id", pos)
             val requestBody = json.toString().toRequestBody("application/json".toMediaType())
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/correct")
+                .url("https://23af-192-249-19-234.ngrok-free.app/correct")
                 .post(requestBody)
                 .build()
             val client = OkHttpClient()
@@ -391,7 +391,7 @@ class GameActivity2 : AppCompatActivity() {
         json.put("opponent", opponent)
         val requestBody = json.toString().toRequestBody("application/json".toMediaType())
         val request = Request.Builder()
-            .url("https://3db2-192-249-19-234.ngrok-free.app/turnend")
+            .url("https://23af-192-249-19-234.ngrok-free.app/turnend")
             .post(requestBody)
             .build()
         val client = OkHttpClient()
@@ -411,7 +411,7 @@ class GameActivity2 : AppCompatActivity() {
             put("down", down[mhand[i]])
         }
         val request = Request.Builder()
-            .url("https://3db2-192-249-19-234.ngrok-free.app/hand")
+            .url("https://23af-192-249-19-234.ngrok-free.app/hand")
             .post(requestBody.toString().toRequestBody(mediaType))
             .build()
         client.newCall(request).enqueue(object : Callback {
@@ -421,7 +421,7 @@ class GameActivity2 : AppCompatActivity() {
     }
     class MyRepeatingTask(gameActivity2: GameActivity2) {
         var remainTime: Long =10000
-        private val url = "https://3db2-192-249-19-234.ngrok-free.app/myturn" // 요청을 보낼 URL
+        private val url = "https://23af-192-249-19-234.ngrok-free.app/myturn" // 요청을 보낼 URL
         private val client = OkHttpClient() // OkHttpClient 인스턴스 생성
         private val handlerThread = HandlerThread("MyHandlerThread") // HandlerThread 생성
         private lateinit var handler: Handler // Handler 선언
@@ -469,38 +469,38 @@ class GameActivity2 : AppCompatActivity() {
         val mediaType = "application/json".toMediaTypeOrNull()
         val client = OkHttpClient()
 
-        b0 = findViewById<ImageView>(R.id.b_0)
-        b1 = findViewById<ImageView>(R.id.b_1)
-        b2 = findViewById<ImageView>(R.id.b_2)
-        b3 = findViewById<ImageView>(R.id.b_3)
-        b4 = findViewById<ImageView>(R.id.b_4)
-        b5 = findViewById<ImageView>(R.id.b_5)
-        b6 = findViewById<ImageView>(R.id.b_6)
-        b7 = findViewById<ImageView>(R.id.b_7)
-        b8 = findViewById<ImageView>(R.id.b_8)
-        b9 = findViewById<ImageView>(R.id.b_9)
-        b10 = findViewById<ImageView>(R.id.b_10)
-        b11 = findViewById<ImageView>(R.id.b_11)
-        b12 = findViewById<ImageView>(R.id.b_12)
-        b13 = findViewById<ImageView>(R.id.b_13)
-        b14 = findViewById<ImageView>(R.id.b_14)
-        b15 = findViewById<ImageView>(R.id.b_15)
-        b16 = findViewById<ImageView>(R.id.b_16)
-        b17 = findViewById<ImageView>(R.id.b_17)
-        b18 = findViewById<ImageView>(R.id.b_18)
-        b19 = findViewById<ImageView>(R.id.b_19)
-        b20 = findViewById<ImageView>(R.id.b_20)
-        b21 = findViewById<ImageView>(R.id.b_21)
-        b22 = findViewById<ImageView>(R.id.b_22)
-        b23 = findViewById<ImageView>(R.id.b_23)
-        b24 = findViewById<ImageView>(R.id.b_24)
-        b25 = findViewById<ImageView>(R.id.b_25)
+        b0 = dialogView.findViewById<ImageView>(R.id.b_0)
+        b1 = dialogView.findViewById<ImageView>(R.id.b_1)
+        b2 = dialogView.findViewById<ImageView>(R.id.b_2)
+        b3 = dialogView.findViewById<ImageView>(R.id.b_3)
+        b4 = dialogView.findViewById<ImageView>(R.id.b_4)
+        b5 = dialogView.findViewById<ImageView>(R.id.b_5)
+        b6 = dialogView.findViewById<ImageView>(R.id.b_6)
+        b7 = dialogView.findViewById<ImageView>(R.id.b_7)
+        b8 = dialogView.findViewById<ImageView>(R.id.b_8)
+        b9 = dialogView.findViewById<ImageView>(R.id.b_9)
+        b10 = dialogView.findViewById<ImageView>(R.id.b_10)
+        b11 = dialogView.findViewById<ImageView>(R.id.b_11)
+        b12 = dialogView.findViewById<ImageView>(R.id.b_12)
+        b13 = dialogView.findViewById<ImageView>(R.id.b_13)
+        b14 = dialogView.findViewById<ImageView>(R.id.b_14)
+        b15 = dialogView.findViewById<ImageView>(R.id.b_15)
+        b16 = dialogView.findViewById<ImageView>(R.id.b_16)
+        b17 = dialogView.findViewById<ImageView>(R.id.b_17)
+        b18 = dialogView.findViewById<ImageView>(R.id.b_18)
+        b19 = dialogView.findViewById<ImageView>(R.id.b_19)
+        b20 = dialogView.findViewById<ImageView>(R.id.b_20)
+        b21 = dialogView.findViewById<ImageView>(R.id.b_21)
+        b22 = dialogView.findViewById<ImageView>(R.id.b_22)
+        b23 = dialogView.findViewById<ImageView>(R.id.b_23)
+        b24 = dialogView.findViewById<ImageView>(R.id.b_24)
+        b25 = dialogView.findViewById<ImageView>(R.id.b_25)
 
         b0.setOnClickListener {
             b0.alpha = 0.5f
             requestBody.put("position", 0)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -524,7 +524,7 @@ class GameActivity2 : AppCompatActivity() {
             b1.alpha = 0.5f
             requestBody.put("position", 1)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -548,7 +548,7 @@ class GameActivity2 : AppCompatActivity() {
             b2.alpha = 0.5f
             requestBody.put("position", 2)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -572,7 +572,7 @@ class GameActivity2 : AppCompatActivity() {
             b3.alpha = 0.5f
             requestBody.put("position", 3)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -596,7 +596,7 @@ class GameActivity2 : AppCompatActivity() {
             b4.alpha = 0.5f
             requestBody.put("position", 4)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -620,7 +620,7 @@ class GameActivity2 : AppCompatActivity() {
             b5.alpha = 0.5f
             requestBody.put("position", 5)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -644,7 +644,7 @@ class GameActivity2 : AppCompatActivity() {
             b6.alpha = 0.5f
             requestBody.put("position", 6)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -668,7 +668,7 @@ class GameActivity2 : AppCompatActivity() {
             b7.alpha = 0.5f
             requestBody.put("position", 7)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -692,7 +692,7 @@ class GameActivity2 : AppCompatActivity() {
             b8.alpha = 0.5f
             requestBody.put("position", 8)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -716,7 +716,7 @@ class GameActivity2 : AppCompatActivity() {
             b9.alpha = 0.5f
             requestBody.put("position", 9)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -740,7 +740,7 @@ class GameActivity2 : AppCompatActivity() {
             b10.alpha = 0.5f
             requestBody.put("position", 10)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -764,7 +764,7 @@ class GameActivity2 : AppCompatActivity() {
             b11.alpha = 0.5f
             requestBody.put("position", 11)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -788,7 +788,7 @@ class GameActivity2 : AppCompatActivity() {
             b12.alpha = 0.5f
             requestBody.put("position", 12)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -812,7 +812,7 @@ class GameActivity2 : AppCompatActivity() {
             b13.alpha = 0.5f
             requestBody.put("position", 13)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -836,7 +836,7 @@ class GameActivity2 : AppCompatActivity() {
             b14.alpha = 0.5f
             requestBody.put("position", 14)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -860,7 +860,7 @@ class GameActivity2 : AppCompatActivity() {
             b15.alpha = 0.5f
             requestBody.put("position", 15)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -884,7 +884,7 @@ class GameActivity2 : AppCompatActivity() {
             b16.alpha = 0.5f
             requestBody.put("position", 16)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -908,7 +908,7 @@ class GameActivity2 : AppCompatActivity() {
             b17.alpha = 0.5f
             requestBody.put("position", 17)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -931,7 +931,7 @@ class GameActivity2 : AppCompatActivity() {
             b18.alpha = 0.5f
             requestBody.put("position", 18)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -955,7 +955,7 @@ class GameActivity2 : AppCompatActivity() {
             b19.alpha = 0.5f
             requestBody.put("position", 19)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -979,7 +979,7 @@ class GameActivity2 : AppCompatActivity() {
             b20.alpha = 0.5f
             requestBody.put("position", 20)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -1003,7 +1003,7 @@ class GameActivity2 : AppCompatActivity() {
             b21.alpha = 0.5f
             requestBody.put("position", 21)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -1027,7 +1027,7 @@ class GameActivity2 : AppCompatActivity() {
             b22.alpha = 0.5f
             requestBody.put("position", 22)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -1051,7 +1051,7 @@ class GameActivity2 : AppCompatActivity() {
             b23.alpha = 0.5f
             requestBody.put("position", 23)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -1075,7 +1075,7 @@ class GameActivity2 : AppCompatActivity() {
             b24.alpha = 0.5f
             requestBody.put("position", 24)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
@@ -1099,7 +1099,7 @@ class GameActivity2 : AppCompatActivity() {
             b25.alpha = 0.5f
             requestBody.put("position", 25)
             val request = Request.Builder()
-                .url("https://3db2-192-249-19-234.ngrok-free.app/chooseTile")
+                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
                 .post(requestBody.toString().toRequestBody(mediaType))
                 .build()
             client.newCall(request).enqueue(object : Callback {
