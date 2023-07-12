@@ -5,7 +5,7 @@
 ## 🪤 프로젝트 소개
 [node.js & mysql & kotlin을 이용한 다빈치코드게임]
 
-## 🧑🏻‍🚀 팀원
+## 🖱️ 팀원
 카이스트 전산학부 19학번 이현수
 
 숙명여자대학교 컴퓨터과학전공 21학번 조세연
@@ -16,7 +16,17 @@
 - IDE: Android Studio
 - Target Device: Galaxy Note 10+
 
-## 📁 어플리케이션 소개
+## 📁 백엔드
+- ngrok를 사용해서 
+
+
+
+
+
+
+
+
+## 📁 프론트엔드
 
 # Kakao Login
 ![splash_AdobeExpress](https://github.com/Gloveman/CampProject1/assets/135544903/66eb195b-e91c-4ed3-8980-72eb86474a97)
