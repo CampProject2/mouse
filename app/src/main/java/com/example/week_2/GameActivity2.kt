@@ -136,18 +136,19 @@ class GameActivity2 : AppCompatActivity() {
             val handler3 = Handler(Looper.getMainLooper()) // UI 스레드의 Handler 생성
             val runnable1 = Runnable {
                 Log.d("hshs", s.toString())
+                if(s==4) {
+                    s=0
+                    Log.d("hshs", "cho")
+                    mhand.sort()
+                    for(i in 0 until mhand.size) {
+                        openmycard(i, mhand[i])
+                        sendmhand(i)
+                    }
+                    turnchange()
+                }
             }
             if(s<4) { handler3.postDelayed(runnable1, 1000) }
-            else {
-                s=0
-                Log.d("hshs", "cho")
-                mhand.sort()
-                for(i in 0 until mhand.size) {
-                    openmycard(i, mhand[i])
-                    sendmhand(i)
-                }
-                turnchange()
-            }
+
         }
         else {
             val dialog = Dialog(this)
@@ -189,30 +190,26 @@ class GameActivity2 : AppCompatActivity() {
                 val handler3 = Handler(Looper.getMainLooper()) // UI 스레드의 Handler 생성
                 val runnable1 = Runnable {
                     Log.d("hshs", s.toString())
+                    if(s==4) {
+                        s=0
+                        Log.d("hshs", "cho")
+                        mhand.sort()
+                        for(i in 0 until mhand.size) {
+                            openmycard(i, mhand[i])
+                            sendmhand(i)
+                        }
+                        turnchange()
+                    }
                 }
                 if(s<4) { handler3.postDelayed(runnable1, 1000) }
-                else {
-                    s=0
-                    Log.d("hshs", "cho")
-                    mhand.sort()
-                    for(i in 0 until mhand.size) {
-                        openmycard(i, mhand[i])
-                        sendmhand(i)
-                    }
-                    turnchange()
-                }
             }
         }
-
-        //update my hand
-
         //게임 시작
         Log.d("hshshs", m_remain.toString())
         Log.d("hshshs", o_remain.toString())
-
         val handler2 = Handler(Looper.getMainLooper()) // UI 스레드의 Handler 생성
         val runnable = Runnable {
-            while(m_remain!=0 && o_remain!=0) {
+            if(m_remain!=0 && o_remain!=0) {
                 if(g==0) {
                     if(turn==1) {
                         if(choosed_card < 26) {
@@ -265,26 +262,27 @@ class GameActivity2 : AppCompatActivity() {
                                     o_remain += ohand.size
                                 }
                             })
-                            if(m_remain==0 || o_remain==0) { break }
-                            //turn start
-                            if(choosed_card < 26) {
-                                selectCard()
-                                choosed_card++
-                                mhand.sort()
-                                for(i in 0 until mhand.size) {
-                                    openmycard(i, mhand[i])
-                                    sendmhand(i)
+                            if(m_remain!=0 && o_remain!=0) {
+                                //turn start
+                                if(choosed_card < 26) {
+                                    selectCard()
+                                    choosed_card++
+                                    mhand.sort()
+                                    for(i in 0 until mhand.size) {
+                                        openmycard(i, mhand[i])
+                                        sendmhand(i)
+                                    }
                                 }
+                                g=1
                             }
-                            g=1
                         }
                     }
                 }
             }
         }
-        handler2.postDelayed(runnable, 1000) // 1초(1000ms) 딜레이 후에 runnable 실행
         //게임 종료 시 while문 탈출
-        if(m_remain==0 || o_remain==0) {
+        if(m_remain!=0 && o_remain!=0) { handler2.postDelayed(runnable, 1000) }
+        else {
             setContentView(R.layout.winlose)
             val winLoseText = findViewById<TextView>(R.id.winlose_text)
             val finishButton = findViewById<Button>(R.id.finish_button)
