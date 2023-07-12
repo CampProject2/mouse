@@ -138,14 +138,16 @@ class GameActivity2 : AppCompatActivity() {
                 Log.d("hshs", s.toString())
             }
             if(s<4) { handler3.postDelayed(runnable1, 1000) }
-            s=0
-            Log.d("hshs", "cho")
-            mhand.sort()
-            for(i in 0 until mhand.size) {
-                openmycard(i, mhand[i])
-                sendmhand(i)
+            else {
+                s=0
+                Log.d("hshs", "cho")
+                mhand.sort()
+                for(i in 0 until mhand.size) {
+                    openmycard(i, mhand[i])
+                    sendmhand(i)
+                }
+                turnchange()
             }
-            turnchange()
         }
         else {
             val dialog = Dialog(this)
@@ -184,12 +186,21 @@ class GameActivity2 : AppCompatActivity() {
                 })
                 //select card 4 & update my hand
                 for(i in 0 until 4) { selectCard() }
-                mhand.sort()
-                for(i in 0 until mhand.size) {
-                    openmycard(i, mhand[i])
-                    sendmhand(i)
+                val handler3 = Handler(Looper.getMainLooper()) // UI 스레드의 Handler 생성
+                val runnable1 = Runnable {
+                    Log.d("hshs", s.toString())
                 }
-                turnchange()
+                if(s<4) { handler3.postDelayed(runnable1, 1000) }
+                else {
+                    s=0
+                    Log.d("hshs", "cho")
+                    mhand.sort()
+                    for(i in 0 until mhand.size) {
+                        openmycard(i, mhand[i])
+                        sendmhand(i)
+                    }
+                    turnchange()
+                }
             }
         }
 
@@ -361,10 +372,9 @@ class GameActivity2 : AppCompatActivity() {
                 client.newCall(request).enqueue(object : Callback {
                     override fun onFailure(call: Call, e: IOException) {}
                     override fun onResponse(call: Call, response: Response) {
-//                        Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
-//                        Log.d("hshs", "tt2")
                             val responseData = response.body?.string()
+                        if (responseData != null) { Log.d("hshs1", responseData) }
                             // 받은 데이터에서 필요한 값을 추출하여 'turn' 변수에 저장
                             val jsonObject = JSONObject(responseData)
                             val receivedTurn = jsonObject.getInt("turn")
