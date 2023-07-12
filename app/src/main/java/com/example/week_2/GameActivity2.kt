@@ -448,9 +448,9 @@ class GameActivity2 : AppCompatActivity() {
                 client.newCall(request).enqueue(object : Callback {
                     override fun onFailure(call: Call, e: IOException) {}
                     override fun onResponse(call: Call, response: Response) {
-                        Log.d("hshs", "tt1")
+//                        Log.d("hshs", "tt1")
                     if (response.isSuccessful) {
-                        Log.d("hshs", "tt2")
+//                        Log.d("hshs", "tt2")
                             val responseData = response.body?.string()
                             // 받은 데이터에서 필요한 값을 추출하여 'turn' 변수에 저장
                             val jsonObject = JSONObject(responseData)
@@ -480,7 +480,6 @@ class GameActivity2 : AppCompatActivity() {
     private fun selectCard() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.board, null)
         val dialog = Dialog(this)
-        val requestBody = JSONObject()
         val mediaType = "application/json".toMediaTypeOrNull()
         val client = OkHttpClient()
 
@@ -540,6 +539,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b0.setOnClickListener {
             b0.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 0)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -567,6 +567,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b1.setOnClickListener {
             b1.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 1)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -594,6 +595,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b2.setOnClickListener {
             b2.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 2)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -621,6 +623,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b3.setOnClickListener {
             b3.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 3)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -648,6 +651,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b4.setOnClickListener {
             b4.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 4)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -675,6 +679,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b5.setOnClickListener {
             b5.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 5)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -702,6 +707,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b6.setOnClickListener {
             b6.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 6)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -729,6 +735,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b7.setOnClickListener {
             b7.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 7)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -756,6 +763,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b8.setOnClickListener {
             b8.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 8)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -783,6 +791,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b9.setOnClickListener {
             b9.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 9)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -810,6 +819,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b10.setOnClickListener {
             b10.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 10)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -837,6 +847,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b11.setOnClickListener {
             b11.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 11)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -864,6 +875,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b12.setOnClickListener {
             b12.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 12)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -891,6 +903,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b13.setOnClickListener {
             b13.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 13)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -918,6 +931,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b14.setOnClickListener {
             b14.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 14)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -945,6 +959,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b15.setOnClickListener {
             b15.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 15)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -972,6 +987,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b16.setOnClickListener {
             b16.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 16)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -999,6 +1015,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b17.setOnClickListener {
             b17.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 17)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -1025,6 +1042,7 @@ class GameActivity2 : AppCompatActivity() {
         }
         b18.setOnClickListener {
             b18.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 18)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -1052,6 +1070,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b19.setOnClickListener {
             b19.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 19)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -1079,6 +1098,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b20.setOnClickListener {
             b20.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 20)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -1106,6 +1126,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b21.setOnClickListener {
             b21.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 21)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -1133,6 +1154,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b22.setOnClickListener {
             b22.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 22)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -1160,6 +1182,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b23.setOnClickListener {
             b23.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 23)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -1187,6 +1210,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b24.setOnClickListener {
             b24.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 24)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -1214,6 +1238,7 @@ class GameActivity2 : AppCompatActivity() {
 
         b25.setOnClickListener {
             b25.alpha = 0.5f
+            val requestBody = JSONObject()
             requestBody.put("position", 25)
             val request = Request.Builder()
                 .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
