@@ -168,10 +168,7 @@ class gameset : AppCompatActivity() {
                         // 저장된 값 활용
                         val intent = Intent(this@gameset, GameActivity2::class.java)
                         intent.putExtra("kid", kid.toString())
-
-                        val gson = Gson()
-                        val opponentJson = gson.toJson(opponent)
-                        intent.putExtra("opponent", opponentJson)
+                        intent.putExtra("opponent", opponent)
                         intent.putExtra("num", num)
                         startActivity(intent)
                     }
