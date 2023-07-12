@@ -27,46 +27,31 @@
 
 
 ## Main page
-
+<img src = "https://github.com/CampProject2/mouse/assets/135544903/77ffc469-c97b-4276-96f8-2b344357966a" height ="400" weight = "800"/>
 
 - 카카오 로그인을 완료하면 게임 메인 페이지에 들어가게 된다. 우측 상단에 있는 ```환경설정``` 버튼과 화면 중앙에 있는 ```게임시작``` 버튼을 누를 수 있도록 만들었다.
 
 ### Setting
 
+<img src = "https://github.com/CampProject2/mouse/assets/135544903/86230583-1847-471c-8432-454c32a9a26d" height ="400" weight = "800"/>
 
-
-- 카카오 로그인을 한 계정을 불러오며 그 전에 게임을 한 적이 있디면 승, 패 전적을 DB에 넣어놓아서 전체 승패횟수와 승률을 볼 수 있게 구현하였다.
+- 카카오 로그인을 한 계정을 불러오며 그 전에 게임을 한 적이 있다면 승, 패 전적을 DB에 업데이트 시키며 사용자의 총 승패 횟수와 승률을 볼 수 있게 구현하였다.
 
 
 ## Game Start
 
 <img src = "https://github.com/CampProject2/mouse/assets/135544903/5bf99e69-7dc5-4263-b61e-16dc2290b7af" height ="400" weight = "800"/>
 
+- 선공인 사람이 먼저 26개의 타일 중 4개의 타일을 뽑게 구현하였다. 커스텀 다이얼로그로 띄운 보드 판에서 흰, 검 상관 없이 4개의 타일을 가져간다.
+이때 상대방의 화면에는 "상대방이 타일을 선택하고 있습니다." 라는 커스텀 다이얼로그가 나타나게 된다.
 
+<img src = "https://github.com/CampProject2/mouse/assets/135544903/56cdc83b-5b4c-43bf-a3a1-d6d766443ff" height ="400" weight = "800"/>
 
-#### Major features
-- 휴대폰에 저장된 사진들을 Grid 형식으로 보여준다.
-- 이미지를 누르면 해당 이미지를 전체 화면으로 보여주며 좌우 슬라이드를 통해 다음 또는 이전 이미지로 넘어갈 수 있다.
-- ```공유```버튼을 누르면 사진을 다른 앱으로 공유할 수 있다.
+- 선공 USER가 타일을 모두 선택하면 상대방으로 타일을 뽑는 순서가 넘어간다. 이 때 앞서 뽑은 타일은 '''.alpha = 0.5f'''으로 지정하여서 반투명하게 보이도록 업데이트한다.
+- 모두가 4개의 타일을 뽑았으면 게임이 시작된다.
 
-* * * * 
-#### 기술 설명
-- 연락처와 동일하게 ```contentResolver```를 이용해 사진들의 ```path```를 참조한다.
-  - 이를 위해 ```android.permission.READ_EXTERNAL_STORAGE``` 권한을 이용하였다.
-- 이미지를 ```View```에 표시하기 위해 ```Glide``` library를 사용했다.
-- 공유 기능의 경우 이미지의 ```content URI```를 가지고  ```Share Intent```를 만들어 실행했다.
-  - 이를 위해 ```android.permission.INTERNET``` 권한을 이용한다.
-    
-# Game -ing
-|scroll|add|edit|
-|------|------|------|
-|![tab3_scroll](https://github.com/Gloveman/CampProject1/assets/135544903/f6efd06d-4ae5-433b-ab24-1406f5e6f855)|![tab3_add](https://github.com/Gloveman/CampProject1/assets/135544903/6aaa9fbb-828d-409c-81a6-ccf20df674e3)|![tab3_edit](https://github.com/Gloveman/CampProject1/assets/135544903/d4009b0f-d414-4aa0-aba5-a6a2f931a5b8)|
+- 선공 USER가 남은 타일을 1개 가져가고, 상대의 타일을 맞춘다. 이 때 추리한 타일이 틀리면 자신의 타일을 하나 보여줘야하고, 맞추게 되면 맞춘 상대의 타일을 보여준다.
+- 이렇게 타일이 제일 먼저 사라지는 USER가 승리하게 된다.
+- 게임이 끝나면 승리하였습니다. 혹은 패배하였습니다. 라는 문구가 뜨며 액티비티가 닫히게 된다.
+- 승패 여부는 환경설정으로 바로 반영되어 업데이트 된다. 
 
-#### Major features
-- Tab3에는 **캘린더 메모 기능**을 구현하였다.
-- 원하는 날짜를 선택하여 ```새 메모```버튼을 눌러 메모를 추가할 수 있고, ```메모 수정```을 통해 메모 수정도 가능하다. 원하면 ```메모 삭제```를 통해 메모를 삭제할 수 있다.
-
-* * * * 
-#### 기술 설명
-- 메모는 모두 앱의 내부 저장소에 JSON 파일로 저장되어 있다. 따라서 별도 권한을 필요로 하지 않는다.
-- ```메모 추가```와 ```메모 수정```시 별도의 ```customdialog```가 열린다. ```dialog```와 ```fragment```간 data 이동을 위해 ```Listener```를 구현하여 사용했다.
