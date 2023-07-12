@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import com.google.gson.Gson
 import com.kakao.sdk.user.UserApiClient
 import okhttp3.Call
 import okhttp3.Callback
@@ -167,7 +168,10 @@ class gameset : AppCompatActivity() {
                         // 저장된 값 활용
                         val intent = Intent(this@gameset, GameActivity2::class.java)
                         intent.putExtra("kid", kid.toString())
-                        intent.putExtra("opponent", opponent)
+
+                        val gson = Gson()
+                        val opponentJson = gson.toJson(opponent)
+                        intent.putExtra("opponent", opponentJson)
                         intent.putExtra("num", num)
                         startActivity(intent)
                     }
