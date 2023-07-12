@@ -1,4 +1,4 @@
-# 🐭 MadCampProject1_mouse
+# 🐭 MadCampProject2_mouse
 
 <img src = "https://github.com/CampProject2/mouse/assets/135544903/1e7be2af-b497-4b83-a703-ff6765ef9c62" height ="400" weight = "400"/>
 
@@ -18,12 +18,12 @@
 
 ## 📁 어플리케이션 소개
 
-# Splash screen
+# Kakao Login
 ![splash_AdobeExpress](https://github.com/Gloveman/CampProject1/assets/135544903/66eb195b-e91c-4ed3-8980-72eb86474a97)
 
 - lottieanimation을 startup activity에서 실행하고 일정 시간 후에 mainactivity로 넘어가도록 했다.
 
-# Tab1_contact
+# Setting
 
 |scroll|action|group|
 |------|------|------|
@@ -51,7 +51,7 @@
   - 전화를 걸기 위해 ```android.permission.CALL_PHONE``` 권한 허용을 요청한다.
 - 그룹 데이터의 경우 앱의 내부 저장소에 JSON 파일로 저장했다. 
 
-# Tab2_gallery
+# Game Start
 |scroll|share|
 |------|------|
 ![tab2_scroll](https://github.com/Gloveman/CampProject1/assets/135544903/b82532cb-f311-41e4-a6bf-7d04d6ba2865)|![tab2_share](https://github.com/Gloveman/CampProject1/assets/135544903/74660b38-09ab-4c7b-981d-2ff67281c451)|
@@ -70,7 +70,7 @@
 - 공유 기능의 경우 이미지의 ```content URI```를 가지고  ```Share Intent```를 만들어 실행했다.
   - 이를 위해 ```android.permission.INTERNET``` 권한을 이용한다.
     
-# Tab3_calender & memo
+# game ing
 |scroll|add|edit|
 |------|------|------|
 |![tab3_scroll](https://github.com/Gloveman/CampProject1/assets/135544903/f6efd06d-4ae5-433b-ab24-1406f5e6f855)|![tab3_add](https://github.com/Gloveman/CampProject1/assets/135544903/6aaa9fbb-828d-409c-81a6-ccf20df674e3)|![tab3_edit](https://github.com/Gloveman/CampProject1/assets/135544903/d4009b0f-d414-4aa0-aba5-a6a2f931a5b8)|
