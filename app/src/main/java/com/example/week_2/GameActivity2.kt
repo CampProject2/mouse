@@ -10,6 +10,7 @@ import android.os.HandlerThread
 import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -42,7 +43,7 @@ class GameActivity2 : AppCompatActivity() {
     private var current_val: Int = 0
     var gNum: Int = 0
 
-    private lateinit var b0: ImageView
+    private lateinit var b0: Button
     private lateinit var b1: ImageView
     private lateinit var b2: ImageView
     private lateinit var b3: ImageView
@@ -486,6 +487,7 @@ class GameActivity2 : AppCompatActivity() {
         dialog.setContentView(dialogView)
         dialog.show()
 
+
 //        val b0 = dialogView.findViewById<ImageView>(R.id.b_0)
 //        val b1 = dialogView.findViewById<ImageView>(R.id.b_1)
 //        val b2 = dialogView.findViewById<ImageView>(R.id.b_2)
@@ -513,7 +515,7 @@ class GameActivity2 : AppCompatActivity() {
 //        val b24 = dialogView.findViewById<ImageView>(R.id.b_24)
 //        val b25 = dialogView.findViewById<ImageView>(R.id.b_25)
 
-        b0 = dialogView.findViewById<ImageView>(R.id.b_0)
+        b0 = dialogView.findViewById(R.id.b_0)
         b1 = dialogView.findViewById<ImageView>(R.id.b_1)
         b2 = dialogView.findViewById<ImageView>(R.id.b_2)
         b3 = dialogView.findViewById<ImageView>(R.id.b_3)
@@ -540,7 +542,7 @@ class GameActivity2 : AppCompatActivity() {
         b24 = dialogView.findViewById<ImageView>(R.id.b_24)
         b25 = dialogView.findViewById<ImageView>(R.id.b_25)
 
-        b0.setOnClickListener {
+        val clickListener = View.OnClickListener {
             Log.d("hshs", "tt0")
             b0.alpha = 0.5f
             val json = JSONObject()
@@ -569,6 +571,37 @@ class GameActivity2 : AppCompatActivity() {
                 }
             })
         }
+        b0.setOnClickListener(clickListener)
+//        b0.setOnClickListener {
+//
+//            Log.d("hshs", "tt0")
+//            b0.alpha = 0.5f
+//            val json = JSONObject()
+//            json.put("position", 0)
+//            val requestBody = json.toString().toRequestBody("application/json".toMediaType())
+//            val request = Request.Builder()
+//                .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
+//                .post(requestBody)
+//                .build()
+//            client.newCall(request).enqueue(object : Callback {
+//                override fun onFailure(call: Call, e: IOException) {}
+//                override fun onResponse(call: Call, response: Response) {
+//                    Log.d("hshs", "tt1")
+//                    if (response.isSuccessful) {
+//                        Log.d("hshs", "tt2")
+//                        val responseData = response.body?.string()
+//                        if (!responseData.isNullOrBlank()) {
+//                            val jsonObject = JSONObject(responseData)
+//                            val tileId = jsonObject.getInt("tileid")
+//                            mhand.add(tileId)
+//                            dialog.dismiss()
+//                            Toast.makeText(this@GameActivity2, "카드를 뽑았습니다", Toast.LENGTH_SHORT).show()
+//                            current_val = mhand[mhand.size-1]
+//                        }
+//                    }
+//                }
+//            })
+//        }
 
         b1.setOnClickListener {
             b1.alpha = 0.5f
