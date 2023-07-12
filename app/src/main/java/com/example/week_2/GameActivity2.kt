@@ -42,6 +42,7 @@ class GameActivity2 : AppCompatActivity() {
     private var g = 0
     private var current_val: Int = 0
     var gNum: Int = 0
+    var s: Int = 0
 
     private lateinit var m0: ImageView
     private lateinit var m1: ImageView
@@ -132,6 +133,13 @@ class GameActivity2 : AppCompatActivity() {
         // 추출한 값 활용하여 게임 화면 구성 또는 게임 로직 처리
         if(turn==1) {
             for(i in 0 until 4) { selectCard() }
+            val handler3 = Handler(Looper.getMainLooper()) // UI 스레드의 Handler 생성
+            val runnable1 = Runnable {
+                Log.d("hshs", s.toString())
+            }
+            if(s<4) { handler3.postDelayed(runnable1, 1000) }
+            s=0
+            Log.d("hshs", "cho")
             mhand.sort()
             for(i in 0 until mhand.size) {
                 openmycard(i, mhand[i])
@@ -359,6 +367,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             // 받은 데이터에서 필요한 값을 추출하여 'turn' 변수에 저장
                             val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                             val receivedTurn = jsonObject.getInt("turn")
                             // 'turn' 변수를 사용하여 원하는 작업 수행
                             if(receivedTurn == 1) {
@@ -490,6 +499,7 @@ class GameActivity2 : AppCompatActivity() {
                 b0.alpha = 0.5f
                 val json = JSONObject()
                 json.put("position", 0)
+                Log.d("hshs", "tt0")
                 val requestBody = json.toString().toRequestBody("application/json".toMediaType())
                 val request = Request.Builder()
                     .url("https://23af-192-249-19-234.ngrok-free.app/chooseTile")
@@ -504,6 +514,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -533,6 +544,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -562,6 +574,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -591,6 +604,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -620,6 +634,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -649,6 +664,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -678,6 +694,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -707,6 +724,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -736,6 +754,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -765,6 +784,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -794,6 +814,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -823,6 +844,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -852,6 +874,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -881,6 +904,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -910,6 +934,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -939,6 +964,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -968,6 +994,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -997,6 +1024,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -1025,6 +1053,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -1054,6 +1083,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -1083,6 +1113,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -1112,6 +1143,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -1141,6 +1173,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -1170,6 +1203,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -1199,6 +1233,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()
@@ -1228,6 +1263,7 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             if (!responseData.isNullOrBlank()) {
                                 val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                                 val tileId = jsonObject.getInt("tileid")
                                 gameActivity2.mhand.add(tileId)
                                 dismiss()

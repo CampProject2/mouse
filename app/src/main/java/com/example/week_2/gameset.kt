@@ -103,6 +103,7 @@ class gameset : AppCompatActivity() {
 
                     if (!responseData.isNullOrBlank()) {
                         val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                         val win = jsonObject.optInt("totalWins")
                         val lose = jsonObject.optInt("totalLoses")
 
@@ -164,6 +165,7 @@ class gameset : AppCompatActivity() {
                     val responseData = response.body?.string()
                     if (!responseData.isNullOrBlank()) {
                         val jsonObject = JSONObject(responseData)
+                                gameActivity2.s++
                         // 받은 데이터에서 필요한 값을 추출하여 저장
                         val opponent = jsonObject.getString("opponent")
                         val num = jsonObject.getInt("value")
