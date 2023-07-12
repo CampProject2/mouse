@@ -367,7 +367,6 @@ class GameActivity2 : AppCompatActivity() {
                             val responseData = response.body?.string()
                             // 받은 데이터에서 필요한 값을 추출하여 'turn' 변수에 저장
                             val jsonObject = JSONObject(responseData)
-                                gameActivity2.s++
                             val receivedTurn = jsonObject.getInt("turn")
                             // 'turn' 변수를 사용하여 원하는 작업 수행
                             if(receivedTurn == 1) {
