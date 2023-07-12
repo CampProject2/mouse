@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.ImageView
@@ -165,6 +166,7 @@ class GameActivity2 : AppCompatActivity() {
             repeatingTask.startRepeatingTask()
 
             if(turn == 1) {
+                dialog.dismiss()
                 //yourhand update
                 val Client2 = OkHttpClient() // OkHttpClient 인스턴스 생성
                 val json=JSONObject()
@@ -203,6 +205,9 @@ class GameActivity2 : AppCompatActivity() {
         }
         turnchange()
         //게임 시작
+        Log.d("hshshs", m_remain.toString())
+        Log.d("hshshs", o_remain.toString())
+
         val handler2 = Handler(Looper.getMainLooper()) // UI 스레드의 Handler 생성
         val runnable = Runnable {
             while(m_remain!=0 && o_remain!=0) {
@@ -221,7 +226,7 @@ class GameActivity2 : AppCompatActivity() {
                     }
                     else {
                         // 상대 턴임을 알려주는
-                        val dialog = Dialog(this)
+                        val dialog = Dialog(this@GameActivity2)
                         dialog.setContentView(R.layout.yourturn)
                         dialog.show()
 
@@ -1144,7 +1149,6 @@ class GameActivity2 : AppCompatActivity() {
                 }
             })
         }
-        current_val = mhand[mhand.size-1]
         dialog.setContentView(dialogView)
         dialog.show()
     }
