@@ -38,20 +38,10 @@
 - 카카오 로그인을 한 계정을 불러오며 그 전에 게임을 한 적이 있디면 승, 패 전적을 DB에 넣어놓아서 전체 승패횟수와 승률을 볼 수 있게 구현하였다.
 
 
-
-
-* * * * 
-
-
-# Game Start
+## Game Start
 
 <img src = "https://github.com/CampProject2/mouse/assets/135544903/5bf99e69-7dc5-4263-b61e-16dc2290b7af" height ="400" weight = "800"/>
 
-
-
-|scroll|share|
-|------|------|
-![tab2_scroll](https://github.com/Gloveman/CampProject1/assets/135544903/b82532cb-f311-41e4-a6bf-7d04d6ba2865)|![tab2_share](https://github.com/Gloveman/CampProject1/assets/135544903/74660b38-09ab-4c7b-981d-2ff67281c451)|
 
 
 #### Major features
