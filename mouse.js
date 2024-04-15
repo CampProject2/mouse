@@ -194,70 +194,70 @@ app.post('/myturn', (req, res)=> {
 
 
 
-// app.get('/myturn', (req, res) => {
-//   const  kakaoID  = req.query.kakaoId
-//   console.log('kakaoID:', kakaoID );  
+app.get('/myturn', (req, res) => {
+  const  kakaoID  = req.query.kakaoId
+  console.log('kakaoID:', kakaoID );  
 
-//   if (turn === kakaoID) {
-//     res.status(200).json({ "turn": 1 });
-//   }
-// });
+  if (turn === kakaoID) {
+    res.status(200).json({ "turn": 1 });
+  }
+});
 
-// app.post('/check', (req, res) => {
-//   const { kakaoID, tileid, id } = {}
-//   console.log('kakaoID:', kakaoID, 'tileid:', tileid , 'id:', id);
+app.post('/check', (req, res) => {
+  const { kakaoID, tileid, id } = {}
+  console.log('kakaoID:', kakaoID, 'tileid:', tileid , 'id:', id);
 
 
-//   if (kakaoID === "2901593585") { // 현수쓰
-//     console.log("입력 HAND1 DB로 처리");
-//     // HAND1 DB에 입력
-//     const query = 'SELECT * FROM HAND1 WHERE tileid = ? AND id = ?';
-//     const values = [tileid, id];
+  if (kakaoID === "2901593585") { // 현수쓰
+    console.log("입력 HAND1 DB로 처리");
+    // HAND1 DB에 입력
+    const query = 'SELECT * FROM HAND1 WHERE tileid = ? AND id = ?';
+    const values = [tileid, id];
   
-//     connection.query(query, values, (error, results) => {
-//       if (error) {
-//         console.log('에러 발생:', error);
-//         res.status(500).send('내부 서버 오류');
+    connection.query(query, values, (error, results) => {
+      if (error) {
+        console.log('에러 발생:', error);
+        res.status(500).send('내부 서버 오류');
 
-//       } else {
-//         if (results.length > 0) {
-//           console.log('HAND1에서 일치하는 값 찾음');
-//           res.send('1');
+      } else {
+        if (results.length > 0) {
+          console.log('HAND1에서 일치하는 값 찾음');
+          res.send('1');
 
-//         } else {
-//           console.log('HAND1에서 일치하는 값 없음');
-//           res.send('0');
-//         }
-//       }
-//     });
-//   } else if (kakaoID === "2901844148") {  // 세연쓰
-//     console.log("입력 HAND2 DB로 처리");
-//     // HAND2 DB에 입력하는 로직
+        } else {
+          console.log('HAND1에서 일치하는 값 없음');
+          res.send('0');
+        }
+      }
+    });
+  } else if (kakaoID === "2901844148") {  // 세연쓰
+    console.log("입력 HAND2 DB로 처리");
+    // HAND2 DB에 입력하는 로직
 
-//     const query = 'SELECT * FROM HAND2 WHERE tileid = ? AND id = ?';
-//     const values = [tileid, id];
+    const query = 'SELECT * FROM HAND2 WHERE tileid = ? AND id = ?';
+    const values = [tileid, id];
   
-//     connection.query(query, values, (error, results) => {
-//       if (error) {
-//         console.log('에러 발생:', error);
-//         res.status(500).send('내부 서버 오류');
+    connection.query(query, values, (error, results) => {
+      if (error) {
+        console.log('에러 발생:', error);
+        res.status(500).send('내부 서버 오류');
 
-//       } else {
-//         if (results.length > 0) {
-//           console.log('HAND2에서 일치하는 값 찾음');
-//           res.send('1');
+      } else {
+        if (results.length > 0) {
+          console.log('HAND2에서 일치하는 값 찾음');
+          res.send('1');
 
-//         } else {
-//           console.log('HAND2에서 일치하는 값 없음');
-//           res.send('0');
-//         }
-//       }
-//     });
-//   } else {
-//     console.log('유효하지 않은 kakaoID');
-//     res.send('0');
-//   }
-// })
+        } else {
+          console.log('HAND2에서 일치하는 값 없음');
+          res.send('0');
+        }
+      }
+    });
+  } else {
+    console.log('유효하지 않은 kakaoID');
+    res.send('0');
+  }
+})
   
   
 app.post('/yourhand', (req, res) => {
